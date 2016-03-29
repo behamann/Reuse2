@@ -1,0 +1,32 @@
+﻿@model PagedList.IPagedList<Reuse2.Models.Interesse>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Interesses no anúncio "+Model.First().Anuncios.First().titulo;
+}
+
+<div class="ecommerce">
+
+    <div class="row">
+        <h3>@ViewBag.Title</h3>
+        <br>
+        @foreach (var interesse in Model)
+        {
+            <div>
+                <h4>@interesse.Users.First().UserName está interessado.</h4>
+                <hr />
+                @Html.ActionLink("Aceitar", "ConfirmarTroca", new { anuncioID = interesse.anuncioID, userID = interesse.Users.First().Id  }, new { @class = "white btn btn-color" })                
+            </div>
+        }
+    </div>
+    <!-- Pagination -->
+    <br />
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Interests", new { page }))
+    <!-- Pagination end-->
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

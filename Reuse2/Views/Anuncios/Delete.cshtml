@@ -1,0 +1,33 @@
+﻿@model Reuse2.Models.Anuncio
+
+@{
+    ViewBag.Title = "Excluir anúncio";
+}
+
+<div class="page-heading-two">
+    <div class="container">
+        <h2>@ViewBag.Title</h2>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="ecommerce">
+
+    <div class="row" style="padding: 20px;">
+
+        <h3>Você quer mesmo excluir esse anúncio?</h3>
+        <br>
+        <div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Sim" class="btn btn-default" /> |
+                    @Html.ActionLink("Voltar ao perfil", "Index", "Manage")
+                </div>
+            }
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Reuse Brasil</title>
+    <!-- Description, Keywords and Author -->
+    <meta name="description" content="Aonde todos podem ofertar o que não precisam e pedir pelo que necessita. ">
+    <meta name="keywords" content="Reuse,Reutilizar,Doação,Pedido,Reciclar,Sustentabilidade">
+    <meta name="author" content="brunoha">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <!-- Bootstrap CSS -->
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font awesome CSS -->
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Magnific Popup -->
+    <link href="../../Content/css/magnific-popup.css" rel="stylesheet">
+    <!-- Owl carousel -->
+    <link href="../../Content/css/owl.carousel.css" rel="stylesheet">
+
+    <!-- CSS for this page -->
+    <!-- Ecommerce -->
+    <link href="../../Content/css/styles/ecommerce.css" rel="stylesheet">
+    <!-- Base style -->
+    <link href="../../Content/css/styles/style.css" rel="stylesheet">
+    <!-- Skin CSS -->
+    <link href="../../Content/css/styles/skin-green.css" rel="stylesheet" id="color_theme">
+
+    <!-- Custom CSS. Type your CSS code in custom.css file -->
+    <link href="../../Content/css/custom.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="#">
+</head>
+
+<!-- Add class "boxed" along with body for boxed layout. -->
+<!-- Add "pattern-x" (1 to 5) for background patterns. -->
+<!-- Add "img-x" (1 to 5) for background images. -->
+<body cz-shortcut-listen="true">
+
+    <!-- Outer Starts -->
+    <div class="outer">
+
+        <!-- Header two Starts -->
+        <div class="header-2">
+
+            <!-- Container -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <!-- Logo section -->
+                        <div class="logo">
+                            <h1><i class="fa fa-leaf color"></i>@Html.ActionLink("Reuse", "Index", "Home")</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+
+                        <!-- Navigation starts.  -->
+                        <div class="navy">
+                            <ul>
+                                <!-- Main menu -->
+                                <li>@Html.ActionLink("Usuários", "Index", "Usuarios")</li>
+                                <li>@Html.ActionLink("Anúncios", "Index", "Anuncios")</li>
+                                <li>@Html.ActionLink("Sobre", "About", "Home")</li>
+                                <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
+                                @Html.Partial("_LoginPartial")
+                            </ul>
+                        </div>
+                        <!-- Navigation ends -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Header two ends -->
+        <!-- Main content starts -->
+
+        <div class="main-block">
+            <div class="ecommerce" style="min-height:450px">
+                <div class="container">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content ends -->
+        <!-- Foot Starts -->
+
+        <div class="foot">
+            <!-- Container -->
+            <div class="container">
+                <div class="row">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Foot Ends -->
+        <!-- Footer Starts -->
+
+        <footer>
+            <!-- Container -->
+            <div class="container">
+                <!-- Footer ../../Content -->
+                <!-- Paragraph -->
+                <p>&copy; @DateTime.Now.Year - Reuse</p>
+                <!-- Clearfix -->
+                <div class="clearfix"></div>
+            </div>
+        </footer>
+
+        <!-- Footer Ends -->
+
+    </div>
+
+    <!-- Outer Ends -->
+    <!-- Scroll to top -->
+    <span class="totop"><a href="#"><i class="fa fa-angle-up bg-color"></i></a></span>
+
+    <!-- Javascript for this page -->
+    <!-- Custom JS. Type your JS code in custom.js file -->
+    <script src="../../Content/js/custom.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <!-- Javascript files -->
+    <!-- jQuery -->
+    <script src="../../Content/js/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <!-- Placeholders JS -->
+    <script src="../../Content/js/placeholders.js"></script>
+    <!-- Owl carousel -->
+    <script src="../../Content/js/owl.carousel.min.js"></script>
+    <!-- Respond JS for IE8 -->
+    <script src="../../Content/js/respond.min.js"></script>
+    <!-- HTML5 Support for IE -->
+    <script src="../../Content/js/html5shiv.js"></script>
+    <!-- Main JS -->
+    <script src="../../Content/js/main.js"></script>
+    <!-- Ecommerce custom JS -->
+    <script src="../../content/js/ecommerce.js"></script>
+    <!-- Magnific Popup -->
+    <script src="../../Content/js/jquery.magnific-popup.min.js"></script>
+</body>
+</html>

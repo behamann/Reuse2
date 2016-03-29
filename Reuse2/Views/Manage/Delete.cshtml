@@ -1,0 +1,72 @@
+﻿@model Reuse2.Models.DeleteViewModel
+
+@{
+    ViewBag.Title = "Excluir sua conta";
+}
+
+<!-- Page heading two starts -->
+
+<div class="page-heading-two">
+    <div class="container">
+        <h2>Minha conta </h2>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="ecommerce">
+
+    <div class="row">
+        <div class="col-md-9 col-sm-8 col-md-push-3 col-sm-push-4">
+            @if (Model.Error == true)
+            {
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Whoops!</strong> A senha estava incorreta.
+                </div>
+            }
+            <h3>Deseja mesmo excluir sua conta?</h3>
+            <br>
+            <div>
+                <h4>Digite sua senha para confirmar</h4>
+                <hr />
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.LabelFor(Model => Model.Password, new { @class = "col-md-1 control-label" })
+                        <div class="col-md-4">
+                            @Html.PasswordFor(Model => Model.Password, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Excluir" class="btn btn-default" /> |
+                        @Html.ActionLink("Mudei de ideia", "Index")
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 col-md-pull-9 col-sm-pull-8">
+
+            <!-- Shopping Sidebar -->
+            <div class="sidebar">
+
+                <!-- Heading -->
+                <h2>Navegação</h2>
+                <!-- Sidebar Menu -->
+                <ul class="account-nav">
+                    <li>@Html.ActionLink("Minha conta", "Index")</li>
+                    <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", User.Identity.Name } })</li>
+                    <li>@Html.ActionLink("Histórico de trocas", "History")</li>
+                    <li>@Html.ActionLink("Meus anúncios", "MyListings")</li>
+                    <li>@Html.ActionLink("Troque sua senha", "ChangePassword")</li>
+                    <li>@Html.ActionLink("Excluir sua conta", "Delete")</li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

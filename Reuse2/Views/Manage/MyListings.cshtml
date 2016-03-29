@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<Reuse2.Models.Anuncio>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Meus anúncios";
+}
+
+<!-- Page heading two starts -->
+
+<div class="page-heading-two">
+    <div class="container">
+        <h2>Minha conta </h2>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="ecommerce">
+
+    <div class="row">            
+        <div class="col-md-9 col-sm-8 col-md-push-3 col-sm-push-4">
+            <h4><i class="fa fa-user color"></i>&nbsp; Meus anúncios</h4>
+            <hr />
+            <!-- Recent Purchase Table -->
+            <div class="rptable table-responsive">
+                <table class="table table-bordered">
+                    <!-- Table Header -->
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Tipo</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <!-- Table Body -->
+                    <tbody>
+                        @foreach (var anuncio in Model)
+                        {
+                            <tr>
+                                <td>@Html.ActionLink(anuncio.anuncioID.ToString(), "Details/" + anuncio.anuncioID.ToString(), "Anuncios")</td>
+                                <td>@anuncio.titulo</td>
+                                <td>@anuncio.tipo</td>
+                                <td>@anuncio.dataCriacao</td>
+                                <td>@anuncio.status</td>
+                                <td>
+                                    @Html.ActionLink("Editar", "Edit", "Anuncios", new { id = anuncio.anuncioID }, new { @class = "white btn btn-color" })
+                                    @Html.ActionLink("Excluir", "Delete", "Anuncios", new { id = anuncio.anuncioID }, new { @class = "white btn btn-red" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <br />
+            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("MyListings", new { page }))
+            <!-- Pagination end-->
+
+        </div>
+        <div class="col-md-3 col-sm-4 col-md-pull-9 col-sm-pull-8">
+
+            <!-- Shopping Sidebar -->
+            <div class="sidebar">
+
+                <!-- Heading -->
+                <h2>Navegação</h2>
+                <!-- Sidebar Menu -->
+                <ul class="account-nav">
+                    <li>@Html.ActionLink("Minha conta", "Index")</li>
+                    <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", User.Identity.Name } })</li>
+                    <li>@Html.ActionLink("Histórico de trocas", "History")</li>
+                    <li>@Html.ActionLink("Meus anúncios", "MyListings")</li>
+                    <li>@Html.ActionLink("Troque sua senha", "ChangePassword")</li>
+                    <li>@Html.ActionLink("Excluir sua conta", "Delete")</li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
