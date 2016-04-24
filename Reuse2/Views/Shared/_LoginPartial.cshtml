@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @{
-    var anunciosComInteresses = Reuse2.Models.Anuncio.getAnunciosPorId(User.Identity.GetUserId(), 1000);
+    var anunciosComInteresses = Reuse2.Models.Anuncio.getAnunciosComInteressadosPorId(User.Identity.GetUserId());
 }
 @if (Request.IsAuthenticated)
 {
@@ -14,7 +14,7 @@
                     <a href="#" class="btn btn-white btn-xs b-dropdown">
                         <i class="fa fa-exclamation-circle"></i>
                         <i class="fa fa-angle-down color"></i>
-                        @if (anunciosComInteresses.Where(a => a.status == "Com interessados").ToList().Count >= 1)
+                        @if (anunciosComInteresses.Count >= 1)
                         {
                             <span class="badge badge-color">@anunciosComInteresses.Count</span>
                         }                        
@@ -27,39 +27,36 @@
                             <!-- Item 1 -->
                             @foreach (var anuncio in anunciosComInteresses)
                             {
-                                if (anuncio.status == "Com interessados")
-                                {
-                                    <li>
-                                        <!-- Item image -->
-                                        <div class="cart-img">
-                                            <a href="#"><img src="img/ecommerce/view-cart/1.png" alt="" class="img-responsive"></a>
-                                        </div>
-                                        <!-- Item heading and price -->
-                                        <div class="cart-title">
-                                            <h5>@anuncio.titulo possui interessados.</h5>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        @Html.ActionLink(
-                                            "Ver mais",
-                                            "Exchange",
-                                            new { anuncioID = anuncio.anuncioID },
-                                            new { @class = "btn btn-color", style = "width: 90px; margin-left: 136px;" }
-                                        )
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li>
-                                        <!-- Item image -->
-                                        <div class="cart-img">
-                                            
-                                        </div>
-                                        <!-- Item heading and price -->
-                                        <div class="cart-title">
-                                            <h5>Nenhuma atualmente.</h5>
-                                        </div>
-                                    </li>
-                                }
+                                <li>
+                                    <!-- Item image -->
+                                    <div class="cart-img">
+                                        <a href="#"><img src="img/ecommerce/view-cart/1.png" alt="" class="img-responsive"></a>
+                                    </div>
+                                    <!-- Item heading and price -->
+                                    <div class="cart-title">
+                                        <h5>@anuncio.titulo possui interessados.</h5>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    @Html.ActionLink(
+                                        "Ver mais",
+                                        "Exchange",
+                                        new { anuncioID = anuncio.anuncioID },
+                                        new { @class = "btn btn-color", style = "width: 90px; margin-left: 136px;" }
+                                    )
+                                </li>
+                            }
+                            @if (anunciosComInteresses.Count == 0)
+                            {
+                                <li>
+                                    <!-- Item image -->
+                                    <div class="cart-img">
+
+                                    </div>
+                                    <!-- Item heading and price -->
+                                    <div class="cart-title">
+                                        <h5>Nenhuma atualmente.</h5>
+                                    </div>
+                                </li>
                             }
                         </ul>
                     </div>

@@ -169,7 +169,29 @@ namespace Reuse2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, cep = model.cep, bairro = model.bairro, cidade = model.cidade, endereco = model.endereco, estado = model.estado, PhoneNumber = model.PhoneNumber, telefone = model.telefone };
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    cep = model.cep,
+                    bairro = model.bairro,
+                    cidade = model.cidade,
+                    endereco = model.endereco,
+                    estado = model.estado,
+                    PhoneNumber = model.PhoneNumber,
+                    telefone = model.telefone,
+                };
+
+                if (model.File != null)
+                {
+                    string pic = System.IO.Path.GetFileName(model.File.FileName);
+                    string path = System.IO.Path.Combine(
+                                           Server.MapPath("~/Content/img/User"), pic);
+                    // file is uploaded
+                    model.File.SaveAs(path);
+                    user.avatar = model.File.FileName;
+                }                
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

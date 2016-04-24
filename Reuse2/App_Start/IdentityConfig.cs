@@ -38,11 +38,29 @@ namespace Reuse2
             #endregion
 
             MailMessage msg = new MailMessage();
-            msg.From = new MailAddress("naoresponda@reuse.com.br");
+            msg.From = new MailAddress("naoresponda@reusebrasil.com");
             msg.To.Add(new MailAddress(message.Destination));
             msg.Subject = message.Subject;
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+            SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(
+                System.Configuration.ConfigurationManager.AppSettings["user"],
+                System.Configuration.ConfigurationManager.AppSettings["pass"]);
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(msg);
+            return Task.FromResult(0);
+        }
+
+        public Task sendContactMessage(string nome, string email, string mensagem)
+        {
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress(email);
+            msg.To.Add(new MailAddress("bruno.hamann@outlook.com"));
+            msg.Subject = "Reuse - Novo contato de "+nome;
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(mensagem, null, MediaTypeNames.Text.Plain));
 
             SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
             System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(
@@ -79,15 +97,15 @@ namespace Reuse2
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
+                RequireUniqueEmail = true                
             };
 
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
+                RequiredLength = 6,                
             };
-
+            
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);

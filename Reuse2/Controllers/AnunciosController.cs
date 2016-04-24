@@ -86,9 +86,16 @@ namespace Reuse2.Controllers
         // GET: Anuncios/Create
         public ActionResult Create()
         {
-            ViewBag.categoriaID = new SelectList(db.Categorias, "categoriaID", "titulo");
-            ViewBag.pessoaID = new SelectList(db.Users, "Id", "UserName");            
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.categoriaID = new SelectList(db.Categorias, "categoriaID", "titulo");
+                ViewBag.pessoaID = new SelectList(db.Users, "Id", "UserName");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account", new { message = "notAuthenticated" });
+            }
         }
 
         // POST: Anuncios/Create
@@ -100,6 +107,29 @@ namespace Reuse2.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<Imagem> fileDetails = new List<Imagem>();
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = System.IO.Path.GetFileName(file.FileName);
+                        Imagem fileDetail = new Imagem()
+                        {
+                            FileName = fileName,
+                            Extension = System.IO.Path.GetExtension(fileName),
+                            Id = Guid.NewGuid()
+                        };
+                        fileDetails.Add(fileDetail);
+
+                        var path = System.IO.Path.Combine(Server.MapPath("~/Content/img/Anuncios/"), fileDetail.Id + fileDetail.Extension);
+                        file.SaveAs(path);
+                    }
+                }
+
+                anuncio.imagens = fileDetails;
+
                 var id = db.Users.Where(u => u.UserName == User.Identity.Name).First().Id;
                 anuncio.ativo = true;
                 anuncio.dataCriacao = DateTime.Now;
@@ -112,7 +142,7 @@ namespace Reuse2.Controllers
 
             ViewBag.categoriaID = new SelectList(db.Categorias, "categoriaID", "titulo", anuncio.categoriaID);
             ViewBag.pessoaID = new SelectList(db.Users, "Id", "UserName", anuncio.pessoaID);
-            return RedirectToAction("Index");
+            return View(anuncio);
         }
 
         // GET: Anuncios/Edit/5
@@ -122,7 +152,7 @@ namespace Reuse2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Anuncio anuncio = db.Anuncios.Find(id);
+            Anuncio anuncio = db.Anuncios.Include(a => a.imagens).SingleOrDefault(a => a.anuncioID == id);
             if (anuncio == null)
             {
                 return HttpNotFound();
@@ -141,6 +171,27 @@ namespace Reuse2.Controllers
         {
             if (ModelState.IsValid)
             {
+                //New Files
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = System.IO.Path.GetFileName(file.FileName);
+                        Imagem fileDetail = new Imagem()
+                        {
+                            FileName = fileName,
+                            Extension = System.IO.Path.GetExtension(fileName),
+                            Id = Guid.NewGuid(),
+                            AnuncioId = anuncio.anuncioID
+                        };
+                        var path = System.IO.Path.Combine(Server.MapPath("~/Content/img/Anuncios/"), fileDetail.Id + fileDetail.Extension);
+                        file.SaveAs(path);
+
+                        db.Entry(fileDetail).State = EntityState.Added;
+                    }
+                }
                 db.Entry(anuncio).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Manage", new { Message = "adEdited" });
@@ -246,6 +297,42 @@ namespace Reuse2.Controllers
             db.Entry(anuncio).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index", new { Message = "tradeConfirmed" });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteFile(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Result = "Error" });
+            }
+            try
+            {
+                Guid guid = new Guid(id);
+                Imagem imagem = db.Imagens.Find(guid);
+                if (imagem == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    return Json(new { Result = "Error" });
+                }
+
+                //Remove from database
+                db.Imagens.Remove(imagem);
+                db.SaveChanges();
+
+                //Delete file from the file system
+                var path = System.IO.Path.Combine(Server.MapPath("~/App_Data/Upload/"), imagem.Id + imagem.Extension);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                return Json(new { Result = "OK" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)

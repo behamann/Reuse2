@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,18 @@ namespace Reuse2.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult sendMessage()
+        {
+            var nome = Request.Params["nome"];
+            var email = Request.Params["email"];
+            var mensagem = Request.Params["mensagem"];
+
+            EmailService es = new EmailService();
+            es.sendContactMessage(nome, email, mensagem);
+
+            return RedirectToAction("Contact", new { message = "emailSended" });
         }
     }
 }

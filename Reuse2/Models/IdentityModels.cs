@@ -7,24 +7,25 @@ using System.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace Reuse2.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        /*[Required]*/
         [DisplayName("Endereço")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         public String endereco { get; set; }
-        /*[Required]*/
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [DisplayName("CEP")]
         public String cep { get; set; }
         [DisplayName("Bairro")]
         public String bairro { get; set; }
-        /*[Required]*/
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [DisplayName("Cidade")]
         public String cidade { get; set; }
-        /*[Required]*/
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [DisplayName("Estado")]
         public String estado { get; set; }
         [DisplayName("Telefone")]
@@ -33,6 +34,8 @@ namespace Reuse2.Models
         public int itensDoados { get; set; }
         [DisplayName("Itens Pedidos")]
         public int itensPedidos { get; set; }
+        [DisplayName("Avatar")]
+        public string avatar { get; set; }
 
         public virtual ICollection<Interesse> interesses { get; set; }
 
@@ -63,9 +66,15 @@ namespace Reuse2.Models
 
         public System.Data.Entity.DbSet<Reuse2.Models.Subcategoria> Subcategorias { get; set; }
 
+        public System.Data.Entity.DbSet<Reuse2.Models.Imagem> Imagens { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ApplicationUser>().Property(x => x.cep).IsRequired();
+            modelBuilder.Entity<ApplicationUser>().Property(x => x.cidade).IsRequired();
+            modelBuilder.Entity<ApplicationUser>().Property(x => x.estado).IsRequired();
+            modelBuilder.Entity<ApplicationUser>().Property(x => x.endereco).IsRequired();
             modelBuilder.Entity<Interesse>()
                 .HasKey(c => new { c.anuncioID, c.userID });
 

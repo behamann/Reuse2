@@ -5,3 +5,16 @@
     margin-top: 15px;
     width: 66px;
 }
+
+.selected {
+    background: #51D466;
+}
+
+.selected a {
+    color: #fff !important; 
+}
+
+.required::after {
+    content: "*";
+    color: red;
+}

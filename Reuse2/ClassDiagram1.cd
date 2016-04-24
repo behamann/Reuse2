@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Reuse2.Models.Anuncio">
+    <Position X="6.75" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAhAAAAAgAAmAgCQAQIAQBYABAAAAAAAAAGACAAAA=</HashCode>
+      <FileName>Models\Anuncio.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Categoria" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Reuse2.Models.Categoria">
+    <Position X="9.5" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAEAAAAAEAAQAAA=</HashCode>
+      <FileName>Models\Categoria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Reuse2.Models.Interesse">
+    <Position X="3.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAASCEABAAAgUAABAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Models\Interesse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Anuncio" />
+      <Property Name="ApplicationUser" />
+      <Property Name="Instituicao" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Reuse2.Models.Subcategoria">
+    <Position X="9.5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAgAAAAIAQAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Models\Subcategoria.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Categoria" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Reuse2.Models.Instituicao">
+    <Position X="0.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEABDAgACAAQAIAABAICBABAAAAAgAAAAhAQAAAAAAg=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TipoDeInstituicao" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Reuse2.Models.ApplicationUser">
+    <Position X="0.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEABCAgACAAAAIAAAAAABAAAAAAAgAAAAAAQAAAAAAg=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Reuse2.Models.TipoDeInstituicao">
+    <Position X="4" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TipoDeInstituicao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

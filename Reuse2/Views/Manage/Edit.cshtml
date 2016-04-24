@@ -20,7 +20,7 @@
             <h4><i class="fa fa-user color"></i>&nbsp; Minha conta</h4>
             <hr />
 
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Edit", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
 
@@ -101,6 +101,15 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div>
+                            <label for="file" class="control-label col-md-2">Avatar</label>
+                            <div class="col-md-10">
+                                <img src="../../Content/img/User/@Model.avatar" style="max-width: 100px;" class="img-responsive img-thumbnail" alt="" />
+                                <input type="file" name="file" id="file" />
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">

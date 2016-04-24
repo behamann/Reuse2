@@ -2,7 +2,19 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "Login";
+    var message = Request.Params["Message"];
 }
+
+@if (message == "notAuthenticated")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Opa!</strong> Você precisa estar logado para criar um anúncio.
+    </div>
+}
+
 <h2>@ViewBag.Title.</h2>
 <div class="row">
     <div class="col-md-8">
@@ -30,14 +42,14 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.CheckBoxFor(m => m.RememberMe, new { style = "margin-left:0px" })
                             @Html.LabelFor(m => m.RememberMe)
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Entrar" class="btn btn-default" />
                     </div>
                 </div>
                 <p>

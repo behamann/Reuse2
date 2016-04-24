@@ -16,6 +16,7 @@ namespace Reuse2.Models
         public string cidade { get; set; }
         public string estado { get; set; }
         public string telefone { get; set; }
+        public string avatar { get; set; }
         public int itensDoados { get; set; }
         public int itensPedidos { get; set; }
         public bool HasPassword { get; set; }
