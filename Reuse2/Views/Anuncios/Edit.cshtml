@@ -5,7 +5,7 @@
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Anuncios", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -16,8 +16,8 @@
         @Html.HiddenFor(model => model.anuncioID)
         @Html.HiddenFor(model => model.dataCriacao)
         @Html.HiddenFor(model => model.pessoaID)
-        @Html.HiddenFor(model => model.interessadoID)
         @Html.HiddenFor(model => model.status)
+        @Html.HiddenFor(model => model.ativo)
 
         <div class="form-group">
             @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -41,6 +41,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.condicao, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                
                 <select id="condicao" name="condicao" class="form-control">
                     <option>Selecione uma opção</option>
                     <option value="Danificado">Danificado</option>
@@ -88,6 +89,25 @@
         </div>
 
         <div class="form-group">
+            <div>
+                <label for="file" class="control-label col-md-2">Imagens</label>
+                <div class="col-md-10">
+                    <ul class="attachment" style="list-style-type: none;">
+                        @foreach (var item in Model.imagens)
+                        {
+                            <li class="col-md-5">
+                                <img src="../../Content/img/Anuncios/@item.Id@item.Extension" style="height: 150px;width: 200px;" class="img-responsive img-thumbnail" alt="" />
+                                <a href="javascript:void(0);" data-id="@item.Id" class="deleteItem">Excluir</a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clearfix"></div>
+                    <input type="file" name="file" id="file" multiple="multiple" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Salvar" class="btn btn-default" />
             </div>
@@ -106,6 +126,36 @@
 <script type="text/javascript">
     $(function() {
         $('#categoriaID').change(getSubcategorias);
+        $('#categoriaID').change();
+        console.log("@Model.condicao");
+        setTimeout(function () {
+            $("#subCategoria").val("@Model.subCategoria");
+            $("#condicao").val("@Model.condicao");
+        }, 200);
+
+
+        $('.deleteItem').click(function (e) {
+            e.preventDefault();
+            var $ctrl = $(this);
+            if (confirm('Deseja excluir essa imagem?')) {
+                $.ajax({
+                    url: '@Url.Action("DeleteFile")',
+                    type: 'POST',
+                    data: { id: $(this).data('id') }
+                }).done(function (data) {
+                    if (data.Result == "OK") {
+                        $ctrl.closest('li').remove();
+                    }
+                    else if (data.Result.Message) {
+                        alert(data.Result.Message);
+                    }
+                }).fail(function () {
+                    alert("There is something wrong. Please try again.");
+                })
+
+            }
+        });
+
     });
 
     function getSubcategorias() {
@@ -121,7 +171,6 @@
                   success: function(response) {
                       $('#subCategoria').html('');
                       $.each(response.list, function (i, item) {
-                          console.log(item);
                           $('#subCategoria').append($('<option>', {
                               value: item.subCategoriaID,
                               text: item.titulo

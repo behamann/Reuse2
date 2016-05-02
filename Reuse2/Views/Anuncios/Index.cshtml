@@ -64,7 +64,10 @@
                             <!-- Shopping items -->
                             <div class="shopping-item">
                                 <!-- Image -->
-                                <a href="Anuncios/Details/@item.anuncioID"><img class="img-responsive" src="../../content/img/ecommerce/items/2.png" alt="" /></a>
+                                <a href="Anuncios/Details/@item.anuncioID">
+                                    @{ var text = (item.imagens.Count == 0 ? "no-image.png" : item.imagens.First().Id+item.imagens.First().Extension); }
+                                    <img class="img-responsive" src="../../content/img/Anuncios/@text" alt="" />
+                                </a>
                                 <!-- Shopping item name / Heading -->
                                 <h4>@Html.ActionLink(@item.titulo, "Details", new RouteValueDictionary { { "id", @item.anuncioID } })</h4>
                                 <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>
@@ -91,12 +94,12 @@
             <div class="sidebar">
                 <!-- Heading -->
                 <h2>Tipo</h2>
-                <!-- Sidebar Menu -->
+                <!-- Sidebar Menu -->                
                 <ul class="list-unstyled my-list">
-                    <li>
+                    <li class="@(ViewBag.tipo == "Ofertas" ? "selected" : "")">
                         @Html.ActionLink("Ofertas", "Index", new RouteValueDictionary { { "tipo", "Ofertas" } })
                     </li>
-                    <li>
+                    <li class="@(ViewBag.tipo == "Pedidos" ? "selected" : "")">
                         @Html.ActionLink("Pedidos", "Index", new RouteValueDictionary { { "tipo", "Pedidos" } })
                     </li>
                 </ul>
@@ -108,11 +111,11 @@
                 <ul class="list-unstyled my-list">
                     @foreach (Reuse2.Models.Categoria categoria in categorias)
                     {
-                        <li>
+                        <li class="@(ViewBag.cat == categoria.titulo ? "selected" : "")">
                             @Html.ActionLink(categoria.titulo.ToString(), "Index", new RouteValueDictionary { { "categoria", categoria.titulo.ToString() } })
                         </li>
                     }
-                    <li>
+                    <li class="@(ViewBag.cat == "Todos" ? "selected" : "")">
                         @Html.ActionLink("Todas as categorias", "Index", new RouteValueDictionary { { "categoria", "Todos" } })
                     </li>
                 </ul>

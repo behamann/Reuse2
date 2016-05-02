@@ -17,25 +17,28 @@ namespace Reuse2.Models
         public virtual ApplicationUser pessoa { get; set; }
 
         [DisplayName("Categoria")]
-        [Required(ErrorMessage = "Campo obrigatório")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
+        
         public int categoriaID { get; set; }
+        [DisplayName("Categoria")]
         public virtual Categoria categoria { get; set; }
 
         public virtual ICollection<Interesse> interessados { get; set; }
 
         [DisplayName("Subcategoria")]
-        [Required(ErrorMessage = "Campo obrigatório")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         public String subCategoria { get; set; }
 
         [DisplayName("Condição")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         public String condicao { get; set; }
 
         [DisplayName("Título")]
-        [Required(ErrorMessage = "Campo obrigatório")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         public String titulo { get; set; }
 
         [DisplayName("Descrição")]
-        [Required(ErrorMessage = "Campo obrigatório")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         public String descricao { get; set; }
 
         [DisplayName("URL do vídeo")]
@@ -44,11 +47,14 @@ namespace Reuse2.Models
         public bool ativo { get; set; }
 
         [DisplayName("Tipo")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         public string tipo { get; set; }
 
         public DateTime dataCriacao { get; set; }
 
         public string status { get; set; }
+
+        public virtual ICollection<Imagem> imagens { get; set; }
 
         public static List<Anuncio> getHistoricoDeTrocas(string id)
         {
@@ -58,6 +64,11 @@ namespace Reuse2.Models
         public static List<Anuncio> getAnunciosPorId(string id, int quantidade)
         {
             return new ApplicationDbContext().Anuncios.Where(a => a.pessoaID == id).Take(quantidade).ToList();
+        }
+
+        public static List<Anuncio> getAnunciosComInteressadosPorId(string id)
+        {
+            return new ApplicationDbContext().Anuncios.Where(a => a.pessoaID == id).Where(a => a.status == "Com Interessados").ToList();
         }
 
         public static List<Anuncio> getUltimosAnuncios(string tipo)

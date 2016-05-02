@@ -82,6 +82,7 @@ namespace Reuse2.Controllers
                 endereco = user.endereco,
                 email = user.Email,
                 cep = user.cep,
+                avatar = user.avatar,
                 bairro = user.bairro,
                 cidade = user.cidade,
                 estado = user.estado,
@@ -112,10 +113,20 @@ namespace Reuse2.Controllers
         // POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserName,Email,endereco,cep,bairro,cidade,estado,telefone,PhoneNumber")] ApplicationUser usuario)
+        public ActionResult Edit(ApplicationUser usuario, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+                if (file != null)
+                {
+                    string pic = System.IO.Path.GetFileName(file.FileName);
+                    string path = System.IO.Path.Combine(
+                                           Server.MapPath("~/Content/img/User"), pic);
+                    // file is uploaded
+                    file.SaveAs(path);
+
+                    usuario.avatar = file.FileName;
+                }
                 var db = new ApplicationDbContext();
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();

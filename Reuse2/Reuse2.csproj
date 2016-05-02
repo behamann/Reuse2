@@ -484,7 +484,6 @@
     <Content Include="Content\fonts\revicons.ttf" />
     <Content Include="Content\fonts\revicons.woff" />
     <Content Include="Content\less\skin-less.less" />
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Properties\PublishProfiles\ReuseBrasil.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -498,7 +497,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

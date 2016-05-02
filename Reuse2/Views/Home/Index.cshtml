@@ -137,8 +137,9 @@
     @foreach (var item in ofertas)
     {
         <div class="owl-content">
-            <a href="Anuncios/Details/@item.anuncioID" class="lightbox">
-                <img src="../../Content/img/gallery/small/1.jpg" alt="" class="img-responsive img-thumbnail" />
+            <a href="Anuncios/Details/@item.anuncioID" class="">
+                @{ var text = (item.imagens.Count == 0 ? "no-image.png" : item.imagens.First().Id + item.imagens.First().Extension); }
+                <img src="../../Content/img/Anuncios/@text" alt="" class="img-responsive img-thumbnail" />
             </a>
             <h4>@Html.ActionLink(item.titulo, "Details/" + item.anuncioID, "Anuncios")</h4>
             <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>
@@ -167,8 +168,9 @@
     @foreach (var item in pedidos)
     {
         <div class="owl-content">
-            <a href="Anuncios/Details/@item.anuncioID" class="lightbox">
-                <img src="../../Content/img/gallery/small/1.jpg" alt="" class="img-responsive img-thumbnail" />
+            <a href="Anuncios/Details/@item.anuncioID" class="">
+                @{ var text = (item.imagens.Count == 0 ? "no-image.png" : item.imagens.First().Id + item.imagens.First().Extension); }
+                <img src="../../Content/img/Anuncios/@text" alt="" class="img-responsive img-thumbnail" />
             </a>
             <h4>@Html.ActionLink(item.titulo, "Details/"+item.anuncioID, "Anuncios")</h4>
             <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>

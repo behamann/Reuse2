@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace Reuse2.Models
 {
@@ -63,6 +64,8 @@ namespace Reuse2.Models
 
     public class RegisterViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         [Display(Name = "Nome")]
         public string UserName { get; set; }
@@ -83,14 +86,18 @@ namespace Reuse2.Models
         [Compare("Password", ErrorMessage = "As senhas não coincidem.")]
         public string ConfirmPassword { get; set; }
 
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [Display(Name = "Endereço")]
         public string endereco { get; set; }
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [Display(Name = "CEP")]
         public string cep { get; set; }
         [Display(Name = "Bairro")]
         public string bairro { get; set; }
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [Display(Name = "Cidade")]
         public string cidade { get; set; }
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [Display(Name = "Estado")]
         public string estado { get; set; }
         [Display(Name = "Telefone")]
@@ -101,6 +108,8 @@ namespace Reuse2.Models
         public int itensDoados { get; set; }
         [Display(Name = "Itens Pedidos")]
         public int itensPedidos { get; set; }
+        [Display(Name = "Avatar")]
+        public HttpPostedFileBase File { get; set; }
     }
 
     public class ResetPasswordViewModel
