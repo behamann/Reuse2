@@ -249,9 +249,14 @@
     <Compile Include="Migrations\201603241425412_removeComInteressados.Designer.cs">
       <DependentUpon>201603241425412_removeComInteressados.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605021934096_changes.cs" />
+    <Compile Include="Migrations\201605021934096_changes.Designer.cs">
+      <DependentUpon>201605021934096_changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Anuncio.cs" />
+    <Compile Include="Models\Imagem.cs" />
     <Compile Include="Models\Interesse.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -592,6 +597,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603241425412_removeComInteressados.resx">
       <DependentUpon>201603241425412_removeComInteressados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605021934096_changes.resx">
+      <DependentUpon>201605021934096_changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

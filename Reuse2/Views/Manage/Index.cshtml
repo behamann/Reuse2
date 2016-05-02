@@ -82,138 +82,130 @@
                                 <!-- Address -->
                                 <p>
                                     @Model.endereco<br />
-                                    @Model.cep, @Model.bairro<br />
+                                    @Model.cep, @(Model.bairro ?? "")<br />
                                     @Model.cidade - @Model.estado
                                 </p>
                                 <!-- Phone number -->
-                                <span><i class="fa fa-phone color"></i>&nbsp; @Model.telefone </span><br />
-                                <span>
-                                    <i class="fa fa-phone color"></i>&nbsp;
-                                    @(Model.PhoneNumber ?? "Nenhum") [
-                                    @if (Model.PhoneNumber != null)
-                                    {
-                                        @Html.ActionLink("Trocar", "AddPhoneNumber")
-                                        @: &nbsp;|&nbsp;
-                                        @Html.ActionLink("Remover", "RemovePhoneNumber")
-                                    }
-                                    else
-                                    {
-                                        @Html.ActionLink("Adicionar", "AddPhoneNumber")
-                                    }
-                                    ]
-                                </span><br />
-                                <!-- Email Address -->
-                                <span><i class="fa fa-envelope color"></i>&nbsp; @Model.email</span><br />
-                                <span>
-                                    <i class="fa fa-envelope color"></i>&nbsp;
-                                    Logins Externos: @Model.Logins.Count [
-                                    @Html.ActionLink("Gerenciar", "ManageLogins")
-                                    ]
-                                </span>
+                                @if (Model.telefone != null)
+                                {
+                                    <span><i class="fa fa-phone color"></i>&nbsp; @Model.telefone </span><br />
+                                }
+                                    <span>
+                                        <i class="fa fa-lg fa-mobile color"></i>&nbsp;
+                                        @Model.PhoneNumber
+                                    </span><br />
+                                    <!-- Email Address -->
+                                    <span><i class="fa fa-envelope color"></i>&nbsp; @Model.email</span><br />
+                                    <span>
+                                        <i class="fa fa-external-link color"></i>&nbsp;
+                                        Logins Externos: @Model.Logins.Count [
+                                        @Html.ActionLink("Gerenciar", "ManageLogins")
+                                        ]
+                                    </span>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <h4><i class="fa fa-user color"></i>&nbsp; Histórico de trocas</h4>
-                    <hr />
-                    <!-- Recent Purchase Table -->
-                    <div class="rptable table-responsive">
-                        <table class="table table-bordered">
-                            <!-- Table Header -->
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Título</th>
-                                    <th>Tipo</th>
-                                    <th>Data</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <!-- Table Body -->
-                            <tbody>
-                                @foreach (var interesse in historicoDeTrocas)
-                                {
+                        <br />
+                        <h4><i class="fa fa-user color"></i>&nbsp; Histórico de trocas</h4>
+                        <hr />
+                        <!-- Recent Purchase Table -->
+                        <div class="rptable table-responsive">
+                            <table class="table table-bordered">
+                                <!-- Table Header -->
+                                <thead>
                                     <tr>
-                                        <td>@Html.ActionLink(interesse.Anuncios.First().anuncioID.ToString(), "Details/" + interesse.Anuncios.First().anuncioID.ToString(), "Anuncios")</td>
-                                        <td>@interesse.Anuncios.First().titulo</td>
-                                        <td>@interesse.Anuncios.First().tipo</td>
-                                        <td>@interesse.Anuncios.First().dataCriacao</td>
-                                        <td>@interesse.Anuncios.First().status</td>
+                                        <th>ID</th>
+                                        <th>Título</th>
+                                        <th>Tipo</th>
+                                        <th>Data</th>
+                                        <th>Status</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                        @if (historicoDeTrocas.Count == Reuse2.Models.Anuncio.NUM_ANUNCIOS_EXIBICAO)
-                        {
-                            @Html.ActionLink("Ver mais", "History", "Anuncios")
-                        }
-                    </div>
-                    <br />
-                    <h4><i class="fa fa-user color"></i>&nbsp; Meus anúncios</h4>
-                    <hr />
-                    <!-- Recent Purchase Table -->
-                    <div class="rptable table-responsive">
-                        <table class="table table-bordered">
-                            <!-- Table Header -->
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Título</th>
-                                    <th>Tipo</th>
-                                    <th>Data</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <!-- Table Body -->
-                            <tbody>
-                                @foreach (var anuncio in anunciosDoUsuario)
-                                {
+                                </thead>
+                                <!-- Table Body -->
+                                <tbody>
+                                    @foreach (var interesse in historicoDeTrocas)
+                                    {
+                                        <tr>
+                                            <td>@Html.ActionLink(interesse.Anuncios.First().anuncioID.ToString(), "Details/" + interesse.Anuncios.First().anuncioID.ToString(), "Anuncios")</td>
+                                            <td>@interesse.Anuncios.First().titulo</td>
+                                            <td>@interesse.Anuncios.First().tipo</td>
+                                            <td>@interesse.Anuncios.First().dataCriacao</td>
+                                            <td>@interesse.Anuncios.First().status</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @if (historicoDeTrocas.Count == Reuse2.Models.Anuncio.NUM_ANUNCIOS_EXIBICAO)
+                            {
+                                @Html.ActionLink("Ver mais", "History", "Anuncios")
+                            }
+                        </div>
+                        <br />
+                        <h4><i class="fa fa-user color"></i>&nbsp; Meus anúncios</h4>
+                        <hr />
+                        <!-- Recent Purchase Table -->
+                        <div class="rptable table-responsive">
+                            <table class="table table-bordered">
+                                <!-- Table Header -->
+                                <thead>
                                     <tr>
-                                        <td>@Html.ActionLink(anuncio.anuncioID.ToString(), "Details/"+anuncio.anuncioID.ToString(), "Anuncios")</td>
-                                        <td>@anuncio.titulo</td>
-                                        <td>@anuncio.tipo</td>
-                                        <td>@anuncio.dataCriacao</td>
-                                        <td>@anuncio.status</td>
-                                        <td>                                            
-                                            @Html.ActionLink("Editar", "Edit", "Anuncios", new { id = anuncio.anuncioID }, new { @class = "white btn btn-color" })
-                                            @Html.ActionLink("Excluir", "Delete", "Anuncios", new { id = anuncio.anuncioID }, new { @class = "white btn btn-red" })
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Título</th>
+                                        <th>Tipo</th>
+                                        <th>Data</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                        @if (anunciosDoUsuario.Count == Reuse2.Models.Anuncio.NUM_ANUNCIOS_EXIBICAO)
-                        {
-                            @Html.ActionLink("Ver mais", "MyListings")
-                        }
+                                </thead>
+                                <!-- Table Body -->
+                                <tbody>
+                                    @foreach (var anuncio in anunciosDoUsuario)
+                                    {
+                                        <tr>
+                                            <td>@Html.ActionLink(anuncio.anuncioID.ToString(), "Details/" + anuncio.anuncioID.ToString(), "Anuncios")</td>
+                                            <td>@anuncio.titulo</td>
+                                            <td>@anuncio.tipo</td>
+                                            <td>@anuncio.dataCriacao</td>
+                                            <td>@anuncio.status</td>
+                                            <td>
+                                                @Html.ActionLink("Editar", "Edit", "Anuncios", new { id = anuncio.anuncioID }, new { @class = "white btn btn-color" })
+                                                @Html.ActionLink("Excluir", "Delete", "Anuncios", new { id = anuncio.anuncioID }, new { @class = "white btn btn-red" })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @if (anunciosDoUsuario.Count == Reuse2.Models.Anuncio.NUM_ANUNCIOS_EXIBICAO)
+                            {
+                                @Html.ActionLink("Ver mais", "MyListings")
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-3 col-sm-4 col-md-pull-9 col-sm-pull-8">
+            <div class="col-md-3 col-sm-4 col-md-pull-9 col-sm-pull-8">
 
-            <!-- Shopping Sidebar -->
-            <div class="sidebar">
+                <!-- Shopping Sidebar -->
+                <div class="sidebar">
 
-                <!-- Heading -->
-                <h2>Navegação</h2>
-                <!-- Sidebar Menu -->
-                <ul class="account-nav">
-                    <li>@Html.ActionLink("Minha conta", "Index")</li>
-                    <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", User.Identity.Name } })</li>
-                    <li>@Html.ActionLink("Histórico de trocas", "History")</li>
-                    <li>@Html.ActionLink("Meus anúncios", "MyListings")</li>
-                    <li>@Html.ActionLink("Troque sua senha", "ChangePassword")</li>
-                    <li>@Html.ActionLink("Excluir sua conta", "Delete")</li>
-                </ul>
+                    <!-- Heading -->
+                    <h2>Navegação</h2>
+                    <!-- Sidebar Menu -->
+                    <ul class="account-nav">
+                        <li>@Html.ActionLink("Minha conta", "Index")</li>
+                        <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", User.Identity.Name } })</li>
+                        <li>@Html.ActionLink("Histórico de trocas", "History")</li>
+                        <li>@Html.ActionLink("Meus anúncios", "MyListings")</li>
+                        <li>@Html.ActionLink("Troque sua senha", "ChangePassword")</li>
+                        <li>@Html.ActionLink("Excluir sua conta", "Delete")</li>
+                    </ul>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
-</div>

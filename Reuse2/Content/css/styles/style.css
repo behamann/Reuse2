@@ -11,7 +11,7 @@ body {
 	line-height: 28px;
 	background: #fff;
 	font-family: 'Open Sans', sans-serif;
-	-webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;    
 }
 h1,
 h2,
@@ -7319,6 +7319,9 @@ body.bg-img{
 	padding: 15px 0px;
 	background: #333333;
 	color: #aaa;
+    right:0;
+    bottom:0;
+    left:0;
 }
 .foot .foot-item {
 	margin: 15px auto;
@@ -7404,7 +7407,10 @@ footer {
 	border-top: 1px solid rgba(255, 255, 255, 0.05);
 	font-size: 12px;
 	background: #333333;
-	color: #ccc;
+	color: #ccc;    
+    right:0;
+    bottom:0;
+    left:0;
 }
 footer a {
 	color: #ccc;

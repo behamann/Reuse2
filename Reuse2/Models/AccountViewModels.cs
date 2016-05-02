@@ -102,6 +102,7 @@ namespace Reuse2.Models
         public string estado { get; set; }
         [Display(Name = "Telefone")]
         public string telefone { get; set; }
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [Display(Name = "Celular")]
         public string PhoneNumber { get; set; }
         [Display(Name = "Itens Doados")]
