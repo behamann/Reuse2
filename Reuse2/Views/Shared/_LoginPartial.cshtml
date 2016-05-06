@@ -71,6 +71,6 @@
 }
 else
 {
-    <li class="pull-right">@Html.ActionLink("Registrar", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li class="pull-right">@Html.ActionLink("Registrar", "Register", "Account", routeValues: new { type = "User" }, htmlAttributes: new { id = "registerLink" })</li>
     <li class="pull-right">@Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
 }

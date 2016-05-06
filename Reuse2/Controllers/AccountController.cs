@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Reuse2.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Reuse2.Controllers
 {
@@ -155,8 +156,10 @@ namespace Reuse2.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string type)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            ViewBag.tipoDeInstituicaoID = new SelectList(db.Tipos, "tipoDeInstituicaoID", "nome");
             return View();
         }
 
@@ -167,6 +170,8 @@ namespace Reuse2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            ViewBag.tipoDeInstituicaoID = new SelectList(db.Tipos, "tipoDeInstituicaoID", "nome");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -180,6 +185,15 @@ namespace Reuse2.Controllers
                     estado = model.estado,
                     PhoneNumber = model.PhoneNumber,
                     telefone = model.telefone,
+                    areaDeCobertura = model.areaDeCobertura,
+                    cnpj = model.cnpj,
+                    descricaoDaCausa = model.descricaoDaCausa,
+                    itensNecessitados = model.itensNecessitados,
+                    metodoDeColeta = model.metodoDeColeta,
+                    nomeDoResponsavel = model.nomeDoResponsavel,
+                    restricoesDeColeta = model.restricoesDeColeta,
+                    tipo = model.tipo,
+                    role = model.role,                    
                 };
 
                 if (model.File != null)

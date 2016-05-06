@@ -1,6 +1,7 @@
 ﻿@model Reuse2.Models.RegisterViewModel
 @{
     ViewBag.Title = "Registre-se";
+    var type = Request.Params["type"];
 }
 <h2>@ViewBag.Title.</h2>
 
@@ -9,6 +10,9 @@
     @Html.AntiForgeryToken()
     <h4>Crie uma nova conta.</h4>
     <hr />
+    <div class="hide">
+        <input class="form-control" id="role" name="role" type="text" value="@type">
+    </div>
     <div class="form-group">
         @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
@@ -83,6 +87,65 @@
             @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
         </div>
     </div>
+    if (type != "User")
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipo, "Tipo da instituição", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownList("tipoDeInstituicaoID", null, "Selecione uma opção", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.cnpj, new { @class = "col-md-2 control-label required" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.cnpj, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.cnpj, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.nomeDoResponsavel, new { @class = "col-md-2 control-label required" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.nomeDoResponsavel, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.nomeDoResponsavel, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.descricaoDaCausa, new { @class = "col-md-2 control-label required" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.descricaoDaCausa, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.descricaoDaCausa, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.itensNecessitados, new { @class = "col-md-2 control-label required" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.itensNecessitados, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.itensNecessitados, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.metodoDeColeta, new { @class = "col-md-2 control-label required" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.metodoDeColeta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.metodoDeColeta, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.areaDeCobertura, new { @class = "col-md-2 control-label required" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.areaDeCobertura, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.areaDeCobertura, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.restricoesDeColeta, new { @class = "col-md-2 control-label required" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.restricoesDeColeta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.restricoesDeColeta, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    }
     <div class="form-group">
         <div>
             <label for="file" class="control-label col-md-2">Avatar</label>

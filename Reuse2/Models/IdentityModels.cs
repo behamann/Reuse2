@@ -8,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using Reuse2.Validators;
 
 namespace Reuse2.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    [InstituicaoAttribute]
     public class ApplicationUser : IdentityUser
     {
         [DisplayName("Endereço")]
@@ -36,6 +38,25 @@ namespace Reuse2.Models
         public int itensPedidos { get; set; }
         [DisplayName("Avatar")]
         public string avatar { get; set; }
+
+        public string role { get; set; }
+        [DisplayName("CNPJ")]
+        public int cnpj { get; set; }
+        [DisplayName("Nome do Responsável")]
+        public string nomeDoResponsavel { get; set; }
+        [DisplayName("Tipo da instituição")]
+        public int tipoID { get; set; }
+        public virtual TipoDeInstituicao tipo { get; set; }
+        [DisplayName("Descrição da causa")]
+        public string descricaoDaCausa { get; set; }
+        [DisplayName("Itens necessitados")]
+        public string itensNecessitados { get; set; }
+        [DisplayName("Método de coleta de itens")]
+        public string metodoDeColeta { get; set; }
+        [DisplayName("Área de cobertura")]
+        public string areaDeCobertura { get; set; }
+        [DisplayName("Restrições para coleta de itens")]
+        public string restricoesDeColeta { get; set; }
 
         public virtual ICollection<Interesse> interesses { get; set; }
 
@@ -67,6 +88,8 @@ namespace Reuse2.Models
         public System.Data.Entity.DbSet<Reuse2.Models.Subcategoria> Subcategorias { get; set; }
 
         public System.Data.Entity.DbSet<Reuse2.Models.Imagem> Imagens { get; set; }
+
+        public System.Data.Entity.DbSet<Reuse2.Models.TipoDeInstituicao> Tipos { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

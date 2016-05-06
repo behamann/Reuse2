@@ -111,6 +111,24 @@ namespace Reuse2.Models
         public int itensPedidos { get; set; }
         [Display(Name = "Avatar")]
         public HttpPostedFileBase File { get; set; }
+
+        public string role { get; set; }
+        [Display(Name = "CNPJ")]
+        public int cnpj { get; set; }
+        [Display(Name = "Nome do Responsável")]
+        public string nomeDoResponsavel { get; set; }
+        [Display(Name = "Tipo da instituição")]
+        public TipoDeInstituicao tipo { get; set; }
+        [Display(Name = "Descrição da causa")]
+        public string descricaoDaCausa { get; set; }
+        [Display(Name = "Itens necessitados")]
+        public string itensNecessitados { get; set; }
+        [Display(Name = "Método de coleta de itens")]
+        public string metodoDeColeta { get; set; }
+        [Display(Name = "Área de cobertura")]
+        public string areaDeCobertura { get; set; }
+        [Display(Name = "Restrições para coleta de itens")]
+        public string restricoesDeColeta { get; set; }
     }
 
     public class ResetPasswordViewModel
