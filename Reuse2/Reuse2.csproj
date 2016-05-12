@@ -265,6 +265,10 @@
     <Compile Include="Migrations\201605051348159_usuarioInstituicao3.Designer.cs">
       <DependentUpon>201605051348159_usuarioInstituicao3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605121858510_cnpjString.cs" />
+    <Compile Include="Migrations\201605121858510_cnpjString.Designer.cs">
+      <DependentUpon>201605121858510_cnpjString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Anuncio.cs" />
@@ -277,7 +281,6 @@
     <Compile Include="Models\TipoDeInstituicao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Validators\InstituicaoAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\arrowleft.png" />
@@ -566,6 +569,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -623,6 +627,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605051348159_usuarioInstituicao3.resx">
       <DependentUpon>201605051348159_usuarioInstituicao3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605121858510_cnpjString.resx">
+      <DependentUpon>201605121858510_cnpjString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

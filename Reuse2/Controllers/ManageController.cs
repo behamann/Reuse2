@@ -127,6 +127,10 @@ namespace Reuse2.Controllers
 
                     usuario.avatar = file.FileName;
                 }
+                else
+                {
+                    usuario.avatar = "profile.png";
+                }
                 var db = new ApplicationDbContext();
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();

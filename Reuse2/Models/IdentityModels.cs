@@ -8,13 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using Reuse2.Validators;
 
 namespace Reuse2.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    [InstituicaoAttribute]
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser, IValidatableObject
     {
         [DisplayName("Endereço")]
         [Required(ErrorMessage = "Este campo é obrigatório")]
@@ -41,7 +39,7 @@ namespace Reuse2.Models
 
         public string role { get; set; }
         [DisplayName("CNPJ")]
-        public int cnpj { get; set; }
+        public string cnpj { get; set; }
         [DisplayName("Nome do Responsável")]
         public string nomeDoResponsavel { get; set; }
         [DisplayName("Tipo da instituição")]
@@ -66,6 +64,21 @@ namespace Reuse2.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (role != "User")
+            {
+                if (cnpj == null)
+                    yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(cnpj) });
+
+                if (tipoID == 0)
+                    yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(tipo) });
+
+                if (descricaoDaCausa == null)
+                    yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(descricaoDaCausa) });
+            }
         }
     }
 

@@ -16,44 +16,54 @@
 
 <div class="ecommerce">
 
-    <div class="row">            
+    <div class="row">
         <div class="col-md-9 col-sm-8 col-md-push-3 col-sm-push-4">
             <h4><i class="fa fa-user color"></i>&nbsp; Histórico de trocas</h4>
             <hr />
             <!-- Recent Purchase Table -->
-            <div class="rptable table-responsive">
-                <table class="table table-bordered">
-                    <!-- Table Header -->
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Tipo</th>
-                            <th>Data</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <!-- Table Body -->
-                    <tbody>
-                        @foreach (var interesse in Model)
-                        {
+            @if (Model.Count == 0)
+            {
+                <span>Nenhum resultado encontrado</span>
+            }
+            else
+            {
+                <div class="rptable table-responsive">
+                    <table class="table table-bordered">
+                        <!-- Table Header -->
+                        <thead>
                             <tr>
-                                <td>@Html.ActionLink(interesse.Anuncios.First().anuncioID.ToString(), "Details/" + interesse.Anuncios.First().anuncioID.ToString(), "Anuncios")</td>
-                                <td>@interesse.Anuncios.First().titulo</td>
-                                <td>@interesse.Anuncios.First().tipo</td>
-                                <td>@interesse.Anuncios.First().dataCriacao</td>
-                                <td>@interesse.Anuncios.First().status</td>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Tipo</th>
+                                <th>Data</th>
+                                <th>Status</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <!-- Pagination -->
-            <br />
-            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+                        </thead>
+                        <!-- Table Body -->
+                        <tbody>
+                            @foreach (var interesse in Model)
+                            {
+                                <tr>
+                                    <td>@Html.ActionLink(interesse.Anuncios.First().anuncioID.ToString(), "Details/" + interesse.Anuncios.First().anuncioID.ToString(), "Anuncios")</td>
+                                    <td>@interesse.Anuncios.First().titulo</td>
+                                    <td>@interesse.Anuncios.First().tipo</td>
+                                    <td>@interesse.Anuncios.First().dataCriacao</td>
+                                    <td>@interesse.Anuncios.First().status</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <!-- Pagination -->
+                    <br />
+                    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
 
-            @Html.PagedListPager(Model, page => Url.Action("History", new { page }))
-            <!-- Pagination end-->
+                    @Html.PagedListPager(Model, page => Url.Action("History", new { page }))
+                    <!-- Pagination end-->
+                </div>
+            }
+            
 
         </div>
         <div class="col-md-3 col-sm-4 col-md-pull-9 col-sm-pull-8">

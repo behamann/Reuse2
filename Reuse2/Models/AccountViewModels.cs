@@ -114,7 +114,7 @@ namespace Reuse2.Models
 
         public string role { get; set; }
         [Display(Name = "CNPJ")]
-        public int cnpj { get; set; }
+        public string cnpj { get; set; }
         [Display(Name = "Nome do Responsável")]
         public string nomeDoResponsavel { get; set; }
         [Display(Name = "Tipo da instituição")]

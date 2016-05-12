@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Reuse2.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Validation;
 
 namespace Reuse2.Controllers
 {
@@ -204,24 +205,47 @@ namespace Reuse2.Controllers
                     // file is uploaded
                     model.File.SaveAs(path);
                     user.avatar = model.File.FileName;
-                }                
-
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    /*await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);*/
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirme a sua conta", callbackUrl);
-
-                    return RedirectToAction("DisplayEmail");
                 }
-                AddErrors(result);
-            }
+                else
+                {
+                    user.avatar = "profile.png";
+                }
+                try {
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        /*await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);*/
 
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirme a sua conta", callbackUrl);
+
+                        return RedirectToAction("DisplayEmail");
+                    }
+                    foreach(var error in result.Errors)
+                    {
+                        if (error.Contains("already taken"))
+                        {
+                            
+                        }
+                    }
+                    
+                    AddErrors(result);
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            ModelState.AddModelError(ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    return View(model);
+                }                
+            }
             // If we got this far, something failed, redisplay form
             return View(model);
         }
