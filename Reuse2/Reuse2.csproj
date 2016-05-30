@@ -440,6 +440,8 @@
     <Content Include="Content\img\gallery\small\6.jpg" />
     <Content Include="Content\img\gallery\small\7.jpg" />
     <Content Include="Content\img\gallery\small\8.jpg" />
+    <Content Include="Content\img\User\2.jpg" />
+    <Content Include="Content\img\User\profile.png" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\custom.js" />

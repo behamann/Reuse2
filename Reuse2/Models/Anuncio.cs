@@ -17,9 +17,9 @@ namespace Reuse2.Models
         public virtual ApplicationUser pessoa { get; set; }
 
         [DisplayName("Categoria")]
-        [Required(ErrorMessage = "Este campo é obrigatório")]
-        
+        [Required(ErrorMessage = "Este campo é obrigatório")]        
         public int categoriaID { get; set; }
+
         [DisplayName("Categoria")]
         public virtual Categoria categoria { get; set; }
 

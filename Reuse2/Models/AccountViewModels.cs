@@ -78,7 +78,7 @@ namespace Reuse2.Models
         [Required]
         [StringLength(100, ErrorMessage = "A {0} deve ser ao menos de {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]

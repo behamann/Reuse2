@@ -132,6 +132,10 @@ namespace Reuse2.Controllers
                     usuario.avatar = "profile.png";
                 }
                 var db = new ApplicationDbContext();
+                ApplicationUser userDB = new ApplicationDbContext().Users.Where(u => u.UserName == usuario.UserName).First();
+                usuario.EmailConfirmed = userDB.EmailConfirmed;
+                usuario.PasswordHash = userDB.PasswordHash;
+                usuario.SecurityStamp = userDB.SecurityStamp;
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { Message = "UserEdited" });
