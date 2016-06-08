@@ -2549,14 +2549,14 @@ body.boxed.img-5 {
 	transition: bottom .4s ease, opacity .3s ease;
 }
 .header-2 .navy > ul > li > ul {
-	top: 100px;
+    opacity: 0;
 	background:#fff;
 	padding:5px 0px;
 	box-shadow:0px 5px 15px rgba(0,0,0,0.15);
+    position: absolute;
 }
 .header-2 .navy > ul > li:hover > ul {
 	left: auto;
-	top: 60px;
 	opacity: 1;
 }
 .header-2 .navy ul ul ul {

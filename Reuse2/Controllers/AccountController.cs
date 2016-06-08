@@ -77,24 +77,27 @@ namespace Reuse2.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+            SignInStatus result = SignInStatus.Success;
+            var cause = "";
             ApplicationUser signedUser = UserManager.FindByEmail(model.Email);
-            SignInStatus result = SignInStatus.Failure;
-            var ol = SignInManager.UserManager.CheckPassword(signedUser, model.Password);
-            var cause = "Ocorreu um erro ao realizar o login, tente novamente e entre em contato caso o mesmo persista.";
-            if (SignInManager.UserManager.CheckPassword(signedUser, model.Password))
+            if (SignInManager.UserManager.IsLockedOut(signedUser.Id))
             {
-                await SignInManager.SignInAsync(signedUser, isPersistent: false, rememberBrowser: model.RememberMe);
-                result = SignInStatus.Success;
+                result = SignInStatus.LockedOut;
+                cause = "Conta bloqueada, por favor entre em contato para demais motivos.";
             }
             if (!SignInManager.UserManager.IsEmailConfirmed(signedUser.Id))
             {
                 result = SignInStatus.Failure;
                 cause = "Email não verificado ainda, por favor verifique seu email para ativar sua conta.";
             }
-            if (SignInManager.UserManager.IsLockedOut(signedUser.Id))
+            if (SignInManager.UserManager.CheckPassword(signedUser, model.Password) && result == SignInStatus.Success)
             {
-                result = SignInStatus.LockedOut;
-                cause = "Conta bloqueada, por favor entre em contato para demais motivos.";
+                await SignInManager.SignInAsync(signedUser, isPersistent: false, rememberBrowser: model.RememberMe);
+            }
+            if (!SignInManager.UserManager.CheckPassword(signedUser, model.Password))
+            {
+                result = SignInStatus.Failure;
+                cause = "Usuário ou senha incorretos.";
             }
             switch (result)
             {
@@ -169,10 +172,12 @@ namespace Reuse2.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string type)
         {
             ApplicationDbContext db = new ApplicationDbContext();
             ViewBag.tipoDeInstituicaoID = new SelectList(db.Tipos, "tipoDeInstituicaoID", "nome");
+            if (model.role == "User" && model.tipoDeInstituicaoID == 0)
+                model.tipoDeInstituicaoID = 32;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -193,8 +198,9 @@ namespace Reuse2.Controllers
                     metodoDeColeta = model.metodoDeColeta,
                     nomeDoResponsavel = model.nomeDoResponsavel,
                     restricoesDeColeta = model.restricoesDeColeta,
-                    tipo = model.tipo,
-                    role = model.role,                    
+                    tipoDeInstituicao = model.tipoDeInstituicao,
+                    role = model.role,
+                    tipoDeInstituicaoID = model.tipoDeInstituicaoID,
                 };
 
                 if (model.File != null)
@@ -224,14 +230,7 @@ namespace Reuse2.Controllers
 
                         return RedirectToAction("DisplayEmail");
                     }
-                    foreach(var error in result.Errors)
-                    {
-                        if (error.Contains("already taken"))
-                        {
-                            
-                        }
-                    }
-                    
+
                     AddErrors(result);
                 }
                 catch (DbEntityValidationException e)

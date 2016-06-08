@@ -71,6 +71,15 @@
 }
 else
 {
+    <!--<li class="pull-right has-sub">
+        <span class="submenu-button"></span>
+        <a href="#">Registrar</a>
+        <ul>
+            <li class="">@Html.ActionLink("Usuário", "Register", "Account", routeValues: new { type = "User" }, htmlAttributes: new { id = "registerLinkUser" })</li>
+            <li class="">@Html.ActionLink("Instituição", "Register", "Account", routeValues: new { type = "Institution" }, htmlAttributes: new { id = "registerLinkInst" })</li>
+        </ul>
+    </li>-->
     <li class="pull-right">@Html.ActionLink("Registrar", "Register", "Account", routeValues: new { type = "User" }, htmlAttributes: new { id = "registerLink" })</li>
     <li class="pull-right">@Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+
 }

@@ -269,6 +269,10 @@
     <Compile Include="Migrations\201605121858510_cnpjString.Designer.cs">
       <DependentUpon>201605121858510_cnpjString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606042107152_tipodeinstituicao.cs" />
+    <Compile Include="Migrations\201606042107152_tipodeinstituicao.Designer.cs">
+      <DependentUpon>201606042107152_tipodeinstituicao.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Anuncio.cs" />
@@ -369,6 +373,7 @@
     <Content Include="Content\css\styles\wedding.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\revicons.svg" />
+    <Content Include="Content\img\Anuncios\no-image.png" />
     <Content Include="Content\img\backgrounds\1.jpg" />
     <Content Include="Content\img\backgrounds\2.jpg" />
     <Content Include="Content\img\backgrounds\3.jpg" />
@@ -376,6 +381,9 @@
     <Content Include="Content\img\backgrounds\5.jpg" />
     <Content Include="Content\img\backgrounds\bg-image.jpg" />
     <Content Include="Content\img\backgrounds\heading-back.jpg" />
+    <Content Include="Content\img\backgrounds\Reuse%281%29.png" />
+    <Content Include="Content\img\backgrounds\Reuse%282%29.png" />
+    <Content Include="Content\img\backgrounds\Reuse%283%29.png" />
     <Content Include="Content\img\backgrounds\s1.jpg" />
     <Content Include="Content\img\backgrounds\s2.jpg" />
     <Content Include="Content\img\backgrounds\s3.jpg" />
@@ -635,6 +643,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605121858510_cnpjString.resx">
       <DependentUpon>201605121858510_cnpjString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606042107152_tipodeinstituicao.resx">
+      <DependentUpon>201606042107152_tipodeinstituicao.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

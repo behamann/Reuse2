@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using Reuse2.Models;
 using PagedList;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Reuse2.Controllers
 {
@@ -76,7 +79,7 @@ namespace Reuse2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Anuncio anuncio = db.Anuncios.Find(id);
-            if (anuncio == null)
+            if (anuncio == null || (User.Identity.Name != "brunoha" && anuncio.ativo == false) )
             {
                 return HttpNotFound();
             }
@@ -103,7 +106,7 @@ namespace Reuse2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "anuncioID,pessoaID,categoriaID,subCategoria,condicao,titulo,descricao,tipo,video,ativo")] Anuncio anuncio)
+        public async Task<ActionResult> Create([Bind(Include = "anuncioID,pessoaID,categoriaID,subCategoria,condicao,titulo,descricao,tipo,video,ativo")] Anuncio anuncio)
         {
             if (ModelState.IsValid)
             {
@@ -131,12 +134,13 @@ namespace Reuse2.Controllers
                 anuncio.imagens = fileDetails;
 
                 var id = db.Users.Where(u => u.UserName == User.Identity.Name).First().Id;
-                anuncio.ativo = true;
+                anuncio.ativo = false;
                 anuncio.dataCriacao = DateTime.Now;
                 anuncio.pessoaID = id;
                 anuncio.status = "Aberto";
                 db.Anuncios.Add(anuncio);
                 db.SaveChanges();
+                await EmailService.sendNovoAnuncioMessage(anuncio.pessoa.UserName, anuncio.pessoa.Email, anuncio.anuncioID);
                 return RedirectToAction("Index", new { Message = "adCreated" });
             }
 
@@ -333,6 +337,25 @@ namespace Reuse2.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
+        }
+
+        // GET: Anuncios/Edit/5
+        public ActionResult Ativar(int? id)
+        {
+            if (id == null && User.Identity.Name != "brunoha")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Anuncio anuncio = db.Anuncios.Include(a => a.imagens).SingleOrDefault(a => a.anuncioID == id);
+            if (anuncio == null)
+            {
+                return HttpNotFound();
+            }
+            anuncio.ativo = true;
+            db.Entry(anuncio).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json("Ativado com sucesso", JsonRequestBehavior.AllowGet);
+
         }
 
         protected override void Dispose(bool disposing)

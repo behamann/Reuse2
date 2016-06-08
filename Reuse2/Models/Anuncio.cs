@@ -73,7 +73,7 @@ namespace Reuse2.Models
 
         public static List<Anuncio> getUltimosAnuncios(string tipo)
         {
-            return new ApplicationDbContext().Anuncios.Where(a => a.tipo == tipo).Take(6).ToList();
+            return new ApplicationDbContext().Anuncios.Where(a => a.tipo == tipo).Where(a => a.ativo == true).Take(6).ToList();
         }
     }
 }

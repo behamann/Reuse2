@@ -18,3 +18,23 @@
     content: "*";
     color: red;
 }
+
+@media screen and (min-width: 768px) {
+    .carousel-indicators {
+        bottom: 0;
+    }
+}
+
+.shopping-item h4 {
+    width: 215px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.shopping-item p {
+    width: 215px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
