@@ -27,11 +27,11 @@
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id)
-
+                    @Html.HiddenFor(model => model.role)
 
                     <div class="form-group">
                         <label for="UserName" class="control-label col-md-2">Nome</label>
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                         </div>
@@ -39,7 +39,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                         </div>
@@ -47,7 +47,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.endereco, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.endereco, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.endereco, "", new { @class = "text-danger" })
                         </div>
@@ -55,7 +55,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.cep, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.cep, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.cep, "", new { @class = "text-danger" })
                         </div>
@@ -63,7 +63,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.bairro, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.bairro, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.bairro, "", new { @class = "text-danger" })
                         </div>
@@ -71,7 +71,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.cidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.cidade, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.cidade, "", new { @class = "text-danger" })
                         </div>
@@ -79,15 +79,44 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.estado, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.estado, new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="col-md-5">
+                            <select class="form-control" data-val="true" data-val-required="Este campo é obrigatório" id="estado" name="estado">
+                                <option value="">Selecione</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espirito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
                             @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.telefone, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.telefone, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.telefone, "", new { @class = "text-danger" })
                         </div>
@@ -95,7 +124,7 @@
 
                     <div class="form-group">
                         <label for="PhoneNumber" class="control-label col-md-2">Celular</label>
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                         </div>
@@ -104,7 +133,7 @@
                     <div class="form-group">
                         <div>
                             <label for="file" class="control-label col-md-2">Avatar</label>
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <img src="../../Content/img/User/@Model.avatar" style="max-width: 100px;" class="img-responsive img-thumbnail" alt="" />
                                 <input type="file" name="file" id="file" />
                             </div>
@@ -112,7 +141,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                        <div class="col-md-offset-2 col-md-5">
                             <input type="submit" value="Salvar" class="btn btn-default" />
                         </div>
                     </div>
@@ -148,3 +177,11 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script src="../../Content/js/jquery.js"></script>
+<script>
+    $(function () {
+        setTimeout(function () {
+            $("#estado").val("@Model.estado");
+        }, 200);
+    });
+</script>

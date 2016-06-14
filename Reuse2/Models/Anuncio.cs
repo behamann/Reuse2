@@ -17,9 +17,9 @@ namespace Reuse2.Models
         public virtual ApplicationUser pessoa { get; set; }
 
         [DisplayName("Categoria")]
-        [Required(ErrorMessage = "Este campo é obrigatório")]
-        
+        [Required(ErrorMessage = "Este campo é obrigatório")]        
         public int categoriaID { get; set; }
+
         [DisplayName("Categoria")]
         public virtual Categoria categoria { get; set; }
 
@@ -73,7 +73,7 @@ namespace Reuse2.Models
 
         public static List<Anuncio> getUltimosAnuncios(string tipo)
         {
-            return new ApplicationDbContext().Anuncios.Where(a => a.tipo == tipo).Take(6).ToList();
+            return new ApplicationDbContext().Anuncios.Where(a => a.tipo == tipo).Where(a => a.ativo == true).Take(6).ToList();
         }
     }
 }

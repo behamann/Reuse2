@@ -43,8 +43,8 @@ namespace Reuse2.Models
         [DisplayName("Nome do Responsável")]
         public string nomeDoResponsavel { get; set; }
         [DisplayName("Tipo da instituição")]
-        public int tipoID { get; set; }
-        public virtual TipoDeInstituicao tipo { get; set; }
+        public int tipoDeInstituicaoID { get; set; }
+        public virtual TipoDeInstituicao tipoDeInstituicao { get; set; }
         [DisplayName("Descrição da causa")]
         public string descricaoDaCausa { get; set; }
         [DisplayName("Itens necessitados")]
@@ -68,17 +68,166 @@ namespace Reuse2.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if (this.IsDigitsOnly(PhoneNumber) == false)
+                yield return new ValidationResult("Apenas números são aceitos", new[] { nameof(PhoneNumber) });
+
+            if (telefone != null && this.IsDigitsOnly(telefone) == false)
+                yield return new ValidationResult("Apenas números são aceitos", new[] { nameof(telefone) });
+
+            if (this.IsDigitsOnly(cep) == false)
+                yield return new ValidationResult("Apenas números são aceitos", new[] { nameof(cep) });
+
             if (role != "User")
             {
                 if (cnpj == null)
                     yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(cnpj) });
 
-                if (tipoID == 0)
-                    yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(tipo) });
+                if (tipoDeInstituicaoID == 0)
+                    yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(tipoDeInstituicao) });
 
                 if (descricaoDaCausa == null)
                     yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(descricaoDaCausa) });
+
+                if (nomeDoResponsavel == null)
+                    yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(nomeDoResponsavel) });
+
+                if (areaDeCobertura == null)
+                    yield return new ValidationResult("Este campo é obrigatório", new[] { nameof(areaDeCobertura) });
+
+                if (cnpj != null && this.IsDigitsOnly(cnpj) == false)
+                    yield return new ValidationResult("Apenas números são aceitos", new[] { nameof(cnpj) });
+
+                if (cnpj != null && this.ValidaCNPJ(cnpj) == false)
+                    yield return new ValidationResult("CNPJ inválido", new[] { nameof(cnpj) });
             }
+        }
+
+
+        bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool ValidaCNPJ(string vrCNPJ)
+
+        {
+
+            string CNPJ = vrCNPJ.Replace(".", "");
+
+            CNPJ = CNPJ.Replace("/", "");
+
+            CNPJ = CNPJ.Replace("-", "");
+
+
+
+            int[] digitos, soma, resultado;
+
+            int nrDig;
+
+            string ftmt;
+
+            bool[] CNPJOk;
+
+
+
+            ftmt = "6543298765432";
+
+            digitos = new int[14];
+
+            soma = new int[2];
+
+            soma[0] = 0;
+
+            soma[1] = 0;
+
+            resultado = new int[2];
+
+            resultado[0] = 0;
+
+            resultado[1] = 0;
+
+            CNPJOk = new bool[2];
+
+            CNPJOk[0] = false;
+
+            CNPJOk[1] = false;
+
+
+
+            try
+
+            {
+
+                for (nrDig = 0; nrDig < 14; nrDig++)
+
+                {
+
+                    digitos[nrDig] = int.Parse(
+
+                        CNPJ.Substring(nrDig, 1));
+
+                    if (nrDig <= 11)
+
+                        soma[0] += (digitos[nrDig] *
+
+                          int.Parse(ftmt.Substring(
+
+                          nrDig + 1, 1)));
+
+                    if (nrDig <= 12)
+
+                        soma[1] += (digitos[nrDig] *
+
+                          int.Parse(ftmt.Substring(
+
+                          nrDig, 1)));
+
+                }
+
+
+
+                for (nrDig = 0; nrDig < 2; nrDig++)
+
+                {
+
+                    resultado[nrDig] = (soma[nrDig] % 11);
+
+                    if ((resultado[nrDig] == 0) || (
+
+                         resultado[nrDig] == 1))
+
+                        CNPJOk[nrDig] = (
+
+                        digitos[12 + nrDig] == 0);
+
+                    else
+
+                        CNPJOk[nrDig] = (
+
+                        digitos[12 + nrDig] == (
+
+                        11 - resultado[nrDig]));
+
+                }
+
+                return (CNPJOk[0] && CNPJOk[1]);
+
+            }
+
+            catch
+
+            {
+
+                return false;
+
+            }
+
         }
     }
 

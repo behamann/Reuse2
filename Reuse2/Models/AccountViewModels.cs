@@ -78,7 +78,7 @@ namespace Reuse2.Models
         [Required]
         [StringLength(100, ErrorMessage = "A {0} deve ser ao menos de {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
@@ -91,6 +91,7 @@ namespace Reuse2.Models
         public string endereco { get; set; }
         [Required(ErrorMessage = "Este campo é obrigatório")]
         [Display(Name = "CEP")]
+        [StringLength(8)]
         public string cep { get; set; }
         [Display(Name = "Bairro")]
         public string bairro { get; set; }
@@ -101,8 +102,10 @@ namespace Reuse2.Models
         [Display(Name = "Estado")]
         public string estado { get; set; }
         [Display(Name = "Telefone")]
+        [StringLength(10)]
         public string telefone { get; set; }
         [Required(ErrorMessage = "Este campo é obrigatório")]
+        [StringLength(10)]
         [Display(Name = "Celular")]
         public string PhoneNumber { get; set; }
         [Display(Name = "Itens Doados")]
@@ -114,11 +117,14 @@ namespace Reuse2.Models
 
         public string role { get; set; }
         [Display(Name = "CNPJ")]
+        [StringLength(14)]
         public string cnpj { get; set; }
         [Display(Name = "Nome do Responsável")]
         public string nomeDoResponsavel { get; set; }
         [Display(Name = "Tipo da instituição")]
-        public TipoDeInstituicao tipo { get; set; }
+        public TipoDeInstituicao tipoDeInstituicao { get; set; }
+        [Display(Name = "Tipo da instituição")]
+        public int tipoDeInstituicaoID { get; set; }
         [Display(Name = "Descrição da causa")]
         public string descricaoDaCausa { get; set; }
         [Display(Name = "Itens necessitados")]
