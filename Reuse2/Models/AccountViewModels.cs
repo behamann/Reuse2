@@ -135,6 +135,8 @@ namespace Reuse2.Models
         public string areaDeCobertura { get; set; }
         [Display(Name = "Restrições para coleta de itens")]
         public string restricoesDeColeta { get; set; }
+
+        public bool externalLogin { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Reuse2.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.Validation;
+using System.Data.Entity;
 
 namespace Reuse2.Controllers
 {
@@ -225,15 +226,39 @@ namespace Reuse2.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        /*await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);*/
+                        if (model.externalLogin == true)
+                        {
+                            if (ModelState.IsValid)
+                            {
+                                // Get the information about the user from the external login provider
+                                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                                if (info == null)
+                                {
+                                    return View("ExternalLoginFailure");
+                                }
+                                result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                                if (result.Succeeded)
+                                {
+                                    user.EmailConfirmed = true;
+                                    db.Entry(user).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                    return RedirectToAction("Index", "Home");
+                                }
+                                AddErrors(result);
+                            }
+                            
+                        }
+                        else
+                        {
+                            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                            // Send an email with this link
+                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            await UserManager.SendEmailAsync(user.Id, "Confirme a sua conta", callbackUrl);
 
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        await UserManager.SendEmailAsync(user.Id, "Confirme a sua conta", callbackUrl);
-
-                        return RedirectToAction("DisplayEmail");
+                            return RedirectToAction("DisplayEmail");
+                        }
                     }
 
                     AddErrors(result);
@@ -437,6 +462,8 @@ namespace Reuse2.Controllers
                 return RedirectToAction("Login");
             }
 
+            ApplicationDbContext db = new ApplicationDbContext();
+            ViewBag.tipoDeInstituicaoID = new SelectList(db.Tipos, "tipoDeInstituicaoID", "nome");
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
@@ -452,7 +479,7 @@ namespace Reuse2.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View("Register", new RegisterViewModel { UserName = loginInfo.ExternalIdentity.Name, Email = loginInfo.Email, role = "User", externalLogin = true });
             }
         }
 

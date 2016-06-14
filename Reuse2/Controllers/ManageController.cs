@@ -170,6 +170,7 @@ namespace Reuse2.Controllers
             return View(interesses.ToPagedList(pageNumber, pageSize));
         }
 
+        [AllowAnonymous]
         public ActionResult Institutions(string tipo, string busca, string currentFilter, int? page)
         {
             var db = new ApplicationDbContext();
@@ -207,6 +208,7 @@ namespace Reuse2.Controllers
             return View(instituicoes.ToPagedList(pageNumber, pageSize));
         }
 
+        [AllowAnonymous]
         public ActionResult AboutInstitution(string name)
         {
             var db = new ApplicationDbContext();

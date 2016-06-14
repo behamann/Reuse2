@@ -54,15 +54,15 @@ namespace Reuse2
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1697974443786621",
+               appSecret: "2fb056863b969ab58a3008f5765972ce");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "624986246242-9k13hv5claggsreedc9qeijhdc7mj100.apps.googleusercontent.com",
+                ClientSecret = "YuAjTBIW9_3WwDNAiGstxdIT"
+            });
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Reuse2.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
