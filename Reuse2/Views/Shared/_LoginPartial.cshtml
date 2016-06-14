@@ -39,7 +39,8 @@
                                     <div class="clearfix"></div>
                                     @Html.ActionLink(
                                         "Ver mais",
-                                        "Exchange",
+                                        "Interests",
+                                        "Anuncios",
                                         new { anuncioID = anuncio.anuncioID },
                                         new { @class = "btn btn-color", style = "width: 90px; margin-left: 136px;" }
                                     )
@@ -66,7 +67,7 @@
         <li class="pull-right">
             @Html.ActionLink("Olá " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
-        <li class="pull-right"><a href="javascript:document.getElementById('logoutForm').submit()">Logoff</a></li>
+        <li class="pull-right"><a href="javascript:document.getElementById('logoutForm').submit()">Sair</a></li>
     }
 }
 else
@@ -80,6 +81,6 @@ else
         </ul>
     </li>-->
     <li class="pull-right">@Html.ActionLink("Registrar", "Register", "Account", routeValues: new { type = "User" }, htmlAttributes: new { id = "registerLink" })</li>
-    <li class="pull-right">@Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li class="pull-right">@Html.ActionLink("Entrar", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
 
 }

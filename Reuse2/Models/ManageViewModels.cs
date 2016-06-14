@@ -19,6 +19,15 @@ namespace Reuse2.Models
         public string avatar { get; set; }
         public int itensDoados { get; set; }
         public int itensPedidos { get; set; }
+
+        public string nomeDoResponsavel { get; set; }
+        public string descricaoDaCausa { get; set; }
+        public string itensNecessitados { get; set; }
+        public string metodoDeColeta { get; set; }
+        public string areaDeCobertura { get; set; }
+        public string restricoesDeColeta { get; set; }
+        public string tipoDeinstituicao { get; set; }
+
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }

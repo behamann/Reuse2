@@ -63,7 +63,7 @@ namespace Reuse2.Models
 
         public static List<Anuncio> getAnunciosPorId(string id, int quantidade)
         {
-            return new ApplicationDbContext().Anuncios.Where(a => a.pessoaID == id).Take(quantidade).ToList();
+            return new ApplicationDbContext().Anuncios.Where(a => a.pessoaID == id).Where(a => a.ativo == true).Take(quantidade).ToList();
         }
 
         public static List<Anuncio> getAnunciosComInteressadosPorId(string id)

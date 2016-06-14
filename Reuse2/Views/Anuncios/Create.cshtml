@@ -129,7 +129,7 @@
                       $.each(response.list, function (i, item) {
                           console.log(item);
                           $('#subCategoria').append($('<option>', {
-                              value: item.subCategoriaID,
+                              value: item.titulo,
                               text: item.titulo
                           }));
                       });

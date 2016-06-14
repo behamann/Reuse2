@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <p>
-                    @Html.ActionLink("Entrar como novo usuário.", "Register")
+                    @Html.ActionLink("Entrar como novo usuário.", "Register", "Account", routeValues: new { type = "User" }, htmlAttributes: new { id = "registerLinkUser" })
                 </p>
                 @*Enable this once you have account confirmation enabled for password reset functionality*@
                 <p>

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Details";
     var categorias = Reuse2.Models.Categoria.getCategorias();
+    var message = Request.Params["Message"];
 }
 
 <!-- Page heading two starts -->
@@ -14,6 +15,16 @@
         <div class="clearfix"></div>
     </div>
 </div>
+
+@if (message == "interestAlreadyCreated")
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Opa!</strong> Você já criou interesse por este anúncio, por favor aguarde a resposta do outro usuário.
+    </div>
+}
 
 <!-- Page heading two ends -->
 <!-- Actual content -->
@@ -127,19 +138,29 @@
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     @Html.ActionLink(
-                                        (Model.tipo == "Ofertas" ? "Eu quero!" : "Eu preciso!"),
+                                        (Model.tipo == "Ofertas" ? "Eu quero!" : "Eu tenho!"),
                                         "Exchange",
                                         new { anuncioID = Model.anuncioID, origem = User.Identity.Name },
                                         new { @class = "btn btn-color go" }
                                     )
                                     <button class="btn btn-color" target="popup" style="margin: 0 10px;"
-                                            onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://reuse.gear.host/Ofertas/Details/@Model.anuncioID', 'name', 'width=600,height=400')">
+                                            onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://reusebrasil.com/Anuncios/Details/@Model.anuncioID', 'name', 'width=600,height=400')">
                                         <i class="fa fa-facebook-square white"></i> Compartilhar
                                     </button>
+                                    @if (Model.tipo == "Ofertas")
+                                    {
                                     <button class="btn btn-color" target="popup"
-                                            onclick="window.open('https://twitter.com/intent/tweet?text=Olhem só: @Model.titulo para doação. Acesse https://reuse.gear.host/Ofertas/Details/@Model.anuncioID para ver mais.', 'name', 'width=600,height=400')">
+                                            onclick="window.open('https://twitter.com/intent/tweet?text=Olhem só: @Model.titulo para doação. Acesse http://reusebrasil.com/Anuncios/Details/@Model.anuncioID para ver mais.', 'name', 'width=600,height=400')">
                                         <i class="fa fa-twitter white"></i> Tweet
                                     </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-color" target="popup"
+                                                onclick="window.open('https://twitter.com/intent/tweet?text=Olhem só: Alguém precisa de @Model.titulo. Acesse http://reusebrasil.com/Anuncios/Details/@Model.anuncioID para ver mais.', 'name', 'width=600,height=400')">
+                                            <i class="fa fa-twitter white"></i> Tweet
+                                        </button>
+                                    }
                                 </span>
                             </div><!-- /input-group -->
                         </div>

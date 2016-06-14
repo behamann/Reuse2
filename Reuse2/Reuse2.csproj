@@ -580,6 +580,9 @@
     <Content Include="Views\Manage\MyListings.cshtml" />
     <Content Include="Views\Manage\History.cshtml" />
     <Content Include="Views\Anuncios\Interests.cshtml" />
+    <Content Include="estados_cidades.json" />
+    <Content Include="Views\Manage\Institutions.cshtml" />
+    <Content Include="Views\Manage\AboutInstitution.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Validators\" />

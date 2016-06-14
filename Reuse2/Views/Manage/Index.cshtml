@@ -90,26 +90,32 @@
                                 {
                                     <span><i class="fa fa-phone color"></i>&nbsp; @Model.telefone </span><br />
                                 }
-                                    <span>
-                                        <i class="fa fa-lg fa-mobile color"></i>&nbsp;
-                                        @Model.PhoneNumber
-                                    </span><br />
-                                    <!-- Email Address -->
-                                    <span><i class="fa fa-envelope color"></i>&nbsp; @Model.email</span><br />
-                                    <!--<span>
-                                        <i class="fa fa-external-link color"></i>&nbsp;
-                                        Logins Externos: @Model.Logins.Count [
-                                        @Html.ActionLink("Gerenciar", "ManageLogins")
-                                        ]
-                                    </span>-->
+                                <span>
+                                    <i class="fa fa-lg fa-mobile color"></i>&nbsp;
+                                    @Model.PhoneNumber
+                                </span><br />
+                                <!-- Email Address -->
+                                <span><i class="fa fa-envelope color"></i>&nbsp; @Model.email</span><br />
+                                <!--<span>
+                                    <i class="fa fa-external-link color"></i>&nbsp;
+                                    Logins Externos: @Model.Logins.Count [
+                                    @Html.ActionLink("Gerenciar", "ManageLogins")
+                                    ]
+                                </span>-->
 
-                                </div>
                             </div>
                         </div>
-                        <br />
-                        <h4><i class="fa fa-user color"></i>&nbsp; Histórico de trocas</h4>
-                        <hr />
-                        <!-- Recent Purchase Table -->
+                    </div>
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Histórico de trocas</h4>
+                    <hr />
+                    <!-- Recent Purchase Table -->
+                    @if (historicoDeTrocas.Count == 0)
+                    {
+                        <span>Nenhum resultado encontrado</span>
+                    }
+                    else
+                    {
                         <div class="rptable table-responsive">
                             <table class="table table-bordered">
                                 <!-- Table Header -->
@@ -141,10 +147,17 @@
                                 @Html.ActionLink("Ver mais", "History", "Anuncios")
                             }
                         </div>
-                        <br />
-                        <h4><i class="fa fa-user color"></i>&nbsp; Meus anúncios</h4>
-                        <hr />
-                        <!-- Recent Purchase Table -->
+                    }
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Meus anúncios</h4>
+                    <hr />
+                    <!-- Recent Purchase Table -->
+                    @if (anunciosDoUsuario.Count == 0)
+                    {
+                        <span>Nenhum resultado encontrado</span>
+                    }
+                    else
+                    {
                         <div class="rptable table-responsive">
                             <table class="table table-bordered">
                                 <!-- Table Header -->
@@ -181,6 +194,7 @@
                                 @Html.ActionLink("Ver mais", "MyListings")
                             }
                         </div>
+                    }
                     </div>
                 </div>
             </div>
@@ -195,7 +209,7 @@
                     <!-- Sidebar Menu -->
                     <ul class="account-nav">
                         <li>@Html.ActionLink("Minha conta", "Index")</li>
-                        <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", User.Identity.Name } })</li>
+                        <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", Model.UserName } })</li>
                         <li>@Html.ActionLink("Histórico de trocas", "History")</li>
                         <li>@Html.ActionLink("Meus anúncios", "MyListings")</li>
                         <li>@Html.ActionLink("Troque sua senha", "ChangePassword")</li>

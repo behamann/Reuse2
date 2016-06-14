@@ -14,6 +14,11 @@
         {
             <div>
                 <h4>@interesse.Users.First().UserName está interessado.</h4>
+                <p>Email: @interesse.Users.First().Email</p>
+                @if(interesse.Users.First().telefone != null) {
+                    <p>Telefone: @interesse.Users.First().telefone</p>
+                }
+                <p>Celular: @interesse.Users.First().PhoneNumber</p>
                 <hr />
                 @Html.ActionLink("Aceitar", "ConfirmarTroca", new { anuncioID = interesse.anuncioID, userID = interesse.Users.First().Id  }, new { @class = "white btn btn-color" })                
             </div>

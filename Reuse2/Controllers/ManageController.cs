@@ -97,11 +97,13 @@ namespace Reuse2.Controllers
         // GET: /Account/Edit/5
         public ActionResult Edit(string name)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            ViewBag.tipoDeInstituicaoID = new SelectList(db.Tipos, "tipoDeInstituicaoID", "nome");
             if (name == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser usuario = new ApplicationDbContext().Users.Where(u => u.UserName == name).First();
+            ApplicationUser usuario = db.Users.Where(u => u.UserName == name).First();
             if (usuario == null)
             {
                 return HttpNotFound();
@@ -115,6 +117,8 @@ namespace Reuse2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ApplicationUser usuario, HttpPostedFileBase file)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            ViewBag.tipoDeInstituicaoID = new SelectList(db.Tipos, "tipoDeInstituicaoID", "nome");
             if (ModelState.IsValid)
             {
                 if (file != null)
@@ -131,8 +135,7 @@ namespace Reuse2.Controllers
                 {
                     usuario.avatar = "profile.png";
                 }
-                var db = new ApplicationDbContext();
-                ApplicationUser userDB = new ApplicationDbContext().Users.Where(u => u.UserName == usuario.UserName).First();
+                ApplicationUser userDB = new ApplicationDbContext().Users.Where(u => u.Id == usuario.Id).First();
                 usuario.EmailConfirmed = userDB.EmailConfirmed;
                 usuario.PasswordHash = userDB.PasswordHash;
                 usuario.SecurityStamp = userDB.SecurityStamp;
@@ -165,6 +168,72 @@ namespace Reuse2.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(interesses.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult Institutions(string tipo, string busca, string currentFilter, int? page)
+        {
+            var db = new ApplicationDbContext();
+            if (busca != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                busca = currentFilter;
+            }
+            ViewBag.CurrentFilter = busca;
+            var instituicoes = db.Users.Where(i => i.role == "Institution");
+            if ((string)Session["tipo"] != tipo && tipo != null)
+            {
+                Session["tipo"] = tipo;
+            }
+            var tip = (string)Session["tipo"];
+
+            if (!String.IsNullOrEmpty(busca))
+            {
+                instituicoes = db.Users.Where(s => s.UserName.Contains(busca));
+            }
+
+            if (tip != null && tip != "Todos")
+            {
+                instituicoes = instituicoes.Where(i => i.tipoDeInstituicao.nome == tip);
+            }
+            instituicoes = instituicoes.OrderBy(i => i.UserName);
+
+            ViewBag.tipo = tip;
+
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+            return View(instituicoes.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult AboutInstitution(string name)
+        {
+            var db = new ApplicationDbContext();
+            ApplicationUser user = db.Users.Where(u => u.UserName == name).First();
+            var model = new IndexViewModel
+            {
+                id = user.Id,
+                PhoneNumber = user.PhoneNumber,
+                UserName = user.UserName,
+                endereco = user.endereco,
+                email = user.Email,
+                cep = user.cep,
+                avatar = user.avatar,
+                bairro = user.bairro,
+                cidade = user.cidade,
+                estado = user.estado,
+                telefone = user.telefone,
+                itensDoados = user.itensDoados,
+                itensPedidos = user.itensPedidos,
+                nomeDoResponsavel = user.nomeDoResponsavel,
+                descricaoDaCausa = user.descricaoDaCausa,
+                itensNecessitados = user.itensNecessitados,
+                areaDeCobertura = user.areaDeCobertura,
+                restricoesDeColeta = user.restricoesDeColeta,
+                tipoDeinstituicao = user.tipoDeInstituicao.nome
+            };
+            return View(model);
         }
 
         //

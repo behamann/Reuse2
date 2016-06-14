@@ -2,6 +2,11 @@
 
 @{
     ViewBag.Title = "Editar";
+    var type = Request.Params["type"];
+    if (Model != null)
+    {
+        type = Model.role;
+    }
 }
 
 <!-- Page heading two starts -->
@@ -30,15 +35,15 @@
                     @Html.HiddenFor(model => model.role)
 
                     <div class="form-group">
-                        <label for="UserName" class="control-label col-md-2">Nome</label>
+                        <label for="UserName" class="control-label col-md-2 required">Nome</label>
                         <div class="col-md-5">
-                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2 required" })
                         <div class="col-md-5">
                             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -46,7 +51,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.endereco, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.endereco, htmlAttributes: new { @class = "control-label col-md-2 required" })
                         <div class="col-md-5">
                             @Html.EditorFor(model => model.endereco, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.endereco, "", new { @class = "text-danger" })
@@ -54,7 +59,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.cep, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.cep, htmlAttributes: new { @class = "control-label col-md-2 required" })
                         <div class="col-md-5">
                             @Html.EditorFor(model => model.cep, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.cep, "", new { @class = "text-danger" })
@@ -70,47 +75,20 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.cidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.cidade, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.cidade, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(m => m.estado, new { @class = "col-md-2 control-label required" })
                         <div class="col-md-5">
                             <select class="form-control" data-val="true" data-val-required="Este campo é obrigatório" id="estado" name="estado">
-                                <option value="">Selecione</option>
-                                <option value="AC">Acre</option>
-                                <option value="AL">Alagoas</option>
-                                <option value="AP">Amapá</option>
-                                <option value="AM">Amazonas</option>
-                                <option value="BA">Bahia</option>
-                                <option value="CE">Ceará</option>
-                                <option value="DF">Distrito Federal</option>
-                                <option value="ES">Espirito Santo</option>
-                                <option value="GO">Goiás</option>
-                                <option value="MA">Maranhão</option>
-                                <option value="MS">Mato Grosso do Sul</option>
-                                <option value="MT">Mato Grosso</option>
-                                <option value="MG">Minas Gerais</option>
-                                <option value="PA">Pará</option>
-                                <option value="PB">Paraíba</option>
-                                <option value="PR">Paraná</option>
-                                <option value="PE">Pernambuco</option>
-                                <option value="PI">Piauí</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="RN">Rio Grande do Norte</option>
-                                <option value="RS">Rio Grande do Sul</option>
-                                <option value="RO">Rondônia</option>
-                                <option value="RR">Roraima</option>
-                                <option value="SC">Santa Catarina</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="SE">Sergipe</option>
-                                <option value="TO">Tocantins</option>
+                                <option value=""></option>
                             </select>
-                            @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.estado, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.cidade, new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-5">
+                            <select class="form-control single-line valid" data-val="true" data-val-required="Este campo é obrigatório" id="cidade" name="cidade"></select>
+                            @*Html.TextBoxFor(m => m.cidade, new { @class = "form-control" })*@
+                            @Html.ValidationMessageFor(m => m.cidade, null, new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -123,13 +101,71 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="PhoneNumber" class="control-label col-md-2">Celular</label>
+                        <label for="PhoneNumber" class="control-label col-md-2 required">Celular</label>
                         <div class="col-md-5">
                             @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    @if (type != "User")
+                    {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.tipoDeInstituicao, "Tipo da instituição", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                        <div class="col-md-5">
+                            @Html.DropDownList("tipoDeInstituicaoID", null, "Selecione uma opção", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.tipoDeInstituicao, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.cnpj, new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.cnpj, new { @class = "form-control", placeholder = "Apenas números" })
+                            @Html.ValidationMessageFor(m => m.cnpj, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.nomeDoResponsavel, new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.nomeDoResponsavel, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.nomeDoResponsavel, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.descricaoDaCausa, new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-5">
+                            @Html.TextAreaFor(m => m.descricaoDaCausa, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.descricaoDaCausa, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.itensNecessitados, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextAreaFor(m => m.itensNecessitados, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.itensNecessitados, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.metodoDeColeta, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextAreaFor(m => m.metodoDeColeta, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.metodoDeColeta, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.areaDeCobertura, new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-5">
+                            @Html.TextAreaFor(m => m.areaDeCobertura, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.areaDeCobertura, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.restricoesDeColeta, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextAreaFor(m => m.restricoesDeColeta, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.restricoesDeColeta, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    }
                     <div class="form-group">
                         <div>
                             <label for="file" class="control-label col-md-2">Avatar</label>
@@ -162,7 +198,7 @@
                 <!-- Sidebar Menu -->
                 <ul class="account-nav">
                     <li>@Html.ActionLink("Minha conta", "Index")</li>
-                    <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "id", Model.Id } })</li>
+                    <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", Model.UserName } })</li>
                     <li>@Html.ActionLink("Histórico de trocas", "History")</li>
                     <li>@Html.ActionLink("Meus anúncios", "MyListings")</li>
                     <li>@Html.ActionLink("Troque sua senha", "ChangePassword")</li>
@@ -180,8 +216,40 @@
 <script src="../../Content/js/jquery.js"></script>
 <script>
     $(function () {
+        $.getJSON('../../estados_cidades.json', function (data) {
+            var items = [];
+            var options = '<option value="">Selecione um estado</option>';
+            $.each(data, function (key, val) {
+                options += '<option value="' + val.sigla + '">' + val.nome + '</option>';
+            });
+            $("#estado").html(options);
+
+            $("#estado").change(function () {
+
+                var options_cidades = '';
+                var str = "";
+
+                $("#estado option:selected").each(function () {
+                    str += $(this).text();
+                });
+
+                $.each(data, function (key, val) {
+                    if (val.nome == str) {
+                        $.each(val.cidades, function (key_city, val_city) {
+                            options_cidades += '<option value="' + val_city + '">' + val_city + '</option>';
+                        });
+                    }
+                });
+                $("#cidade").html(options_cidades);
+
+            }).change();
+
+        });
         setTimeout(function () {
             $("#estado").val("@Model.estado");
+            $("#estado").change();
+            $("#cidade").val("@Model.cidade");
+            $("#tipoDeInstituicaoID").val("@Model.tipoDeInstituicaoID");
         }, 200);
     });
 </script>

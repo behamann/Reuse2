@@ -243,6 +243,10 @@ namespace Reuse2.Controllers
                 return RedirectToAction("Index", new { Message = "sameUser" });
             }
             var user = db.Users.Where(u => u.UserName == origem).First();
+            if(db.Interesses.Where(i => i.anuncioID == anuncio.anuncioID).Where(i => i.userID == user.Id).Count() >= 1)
+            {
+                return RedirectToAction("Details/"+anuncioID, new { Message = "interestAlreadyCreated" });
+            }
             var interesse = new Interesse();
             interesse.anuncioID = anuncio.anuncioID;
             interesse.userID = user.Id;
@@ -251,8 +255,8 @@ namespace Reuse2.Controllers
             db.Interesses.Add(interesse);
             anuncio.status = "Com interessados";
             db.Entry(anuncio).State = EntityState.Modified;
-
             db.SaveChanges();
+            EmailService.sendNovoInteresseMessage(anuncio.pessoa.UserName, User.Identity.Name, anuncio.titulo);
             return RedirectToAction("Index", new { Message = "interestCreated" });
         }
 

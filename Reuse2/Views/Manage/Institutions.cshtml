@@ -1,0 +1,105 @@
+﻿@model PagedList.IPagedList<Reuse2.Models.ApplicationUser>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Instituições";
+    var tipoDeInstituicao = Reuse2.Models.TipoDeInstituicao.getTipos();
+    var message = Request.Params["Message"];
+}
+<!-- Page heading two starts -->
+
+<div class="page-heading-two">
+    <div class="container">
+        <h2>Instituições</h2>
+    </div>
+</div>
+
+<!-- Page heading two ends -->
+
+@if (message == "adCreated")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Sucesso!</strong> Seu anúncio foi criado, aguarde até no máximo 24 horas para ele estar disposto no site.
+    </div>
+}
+
+<!-- Shopping Items -->
+
+<div class="ecommerce">
+    <div class="row">
+        <div class="col-md-9 col-sm-8 col-md-push-3 col-sm-push-4">
+            <!-- Shopping items content -->
+            <div class="shopping-content">
+                <!-- Block Title -->
+                <h4 class="col-md-8">
+                    <i class="fa fa-shopping-cart color"></i>&nbsp; @ViewBag.tipo &nbsp;
+                </h4>
+                @using (Html.BeginForm("Interests", "Manage", FormMethod.Get, new { htmlAttributes = new { @class = "col-md-4" } }))
+                {
+                    <p class="pull-right">
+                        @Html.TextBox("busca", ViewBag.CurrentFilter as string, new { placeholder = "Pesquisar por nome" })
+                        <button type="submit" class="btn btn-xs green" style="margin-bottom: 2%; background-color: #51D466; padding: 3px 8px;">
+                            <i class="fa fa-search white"></i>
+                        </button>
+                    </p>
+                }
+                <div class="clearfix"></div>
+                <hr />
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 col-sm-6">
+                            <!-- Shopping items -->
+                            <div class="shopping-item">
+                                <!-- Image -->
+                                <a href="AboutInstitution?name=@item.UserName">
+                                    @{ var text = (item.avatar == "" ? "no-image.png" : item.avatar); }
+                                    <img class="img-responsive" src="../../content/img/Anuncios/@text" alt="" />
+                                </a>
+                                <!-- Shopping item name / Heading -->
+                                <h4>@Html.ActionLink(@item.UserName, "AboutInstitution", new RouteValueDictionary { { "name", @item.UserName } })</h4>
+                                <p>Localização: @item.cidade - @item.estado</p>
+                                <div class="clearfix"></div>
+                                <!-- Shopping item hover block & link -->
+                                <div class="item-hover bg-color hidden-xs">
+                                    @Html.ActionLink("Ver mais", "AboutInstitution", new RouteValueDictionary { { "name", @item.UserName } })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Pagination -->
+                <br />
+                Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                <!-- Pagination end-->
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 col-md-pull-9 col-sm-pull-8">
+            <!-- Shopping Sidebar -->
+            <div class="sidebar">
+                <!-- Heading -->
+                <h2>Tipo</h2>
+                <!-- Sidebar Menu -->
+                <ul class="list-unstyled my-list">
+                    @foreach (Reuse2.Models.TipoDeInstituicao tipo in tipoDeInstituicao)
+                    {
+                        <li class="@(ViewBag.tipo == tipo.nome ? "selected" : "")">
+                            @Html.ActionLink(tipo.nome, "Institutions", new RouteValueDictionary { { "tipo", tipo.nome } })
+                        </li>
+                    }
+                    <li class="@(ViewBag.tipo == "Todos" ? "selected" : "")">
+                        @Html.ActionLink("Todas", "Institutions", new RouteValueDictionary { { "tipo", "Todos" } })
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

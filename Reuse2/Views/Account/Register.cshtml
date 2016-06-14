@@ -54,12 +54,6 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.bairro, new { @class = "col-md-2 control-label" })
-        <div class="col-md-5">
-            @Html.TextBoxFor(m => m.bairro, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
         @Html.LabelFor(m => m.cep, new { @class = "col-md-2 control-label required" })
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.cep, new { @class = "form-control", placeholder = "Apenas números" })
@@ -67,46 +61,26 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.cidade, new { @class = "col-md-2 control-label required" })
+        @Html.LabelFor(m => m.bairro, new { @class = "col-md-2 control-label" })
         <div class="col-md-5">
-            @Html.TextBoxFor(m => m.cidade, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.cidade, null, new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.bairro, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.estado, new { @class = "col-md-2 control-label required" })
         <div class="col-md-5">
             <select class="form-control" data-val="true" data-val-required="Este campo é obrigatório" id="estado" name="estado">
-                <option value="">Selecione</option>
-                <option value="AC">Acre</option>
-                <option value="AL">Alagoas</option>
-                <option value="AP">Amapá</option>
-                <option value="AM">Amazonas</option>
-                <option value="BA">Bahia</option>
-                <option value="CE">Ceará</option>
-                <option value="DF">Distrito Federal</option>
-                <option value="ES">Espirito Santo</option>
-                <option value="GO">Goiás</option>
-                <option value="MA">Maranhão</option>
-                <option value="MS">Mato Grosso do Sul</option>
-                <option value="MT">Mato Grosso</option>
-                <option value="MG">Minas Gerais</option>
-                <option value="PA">Pará</option>
-                <option value="PB">Paraíba</option>
-                <option value="PR">Paraná</option>
-                <option value="PE">Pernambuco</option>
-                <option value="PI">Piauí</option>
-                <option value="RJ">Rio de Janeiro</option>
-                <option value="RN">Rio Grande do Norte</option>
-                <option value="RS">Rio Grande do Sul</option>
-                <option value="RO">Rondônia</option>
-                <option value="RR">Roraima</option>
-                <option value="SC">Santa Catarina</option>
-                <option value="SP">São Paulo</option>
-                <option value="SE">Sergipe</option>
-                <option value="TO">Tocantins</option>
+                <option value=""></option>
             </select>
             @Html.ValidationMessageFor(m => m.estado, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.cidade, new { @class = "col-md-2 control-label required" })
+        <div class="col-md-5">
+            <select class="form-control single-line valid" data-val="true" data-val-required="Este campo é obrigatório" id="cidade" name="cidade"></select>
+            @*Html.TextBoxFor(m => m.cidade, new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(m => m.cidade, null, new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -185,7 +159,7 @@
     <div class="form-group">
         <div>
             <label for="file" class="control-label col-md-2">Avatar</label>
-            <div class="col-md-5">                
+            <div class="col-md-5">
                 <input type="file" name="file" id="file" />
             </div>
         </div>
@@ -200,3 +174,41 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script src="../../Content/js/jquery.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $.getJSON('../../estados_cidades.json', function (data) {
+            var items = [];
+            var options = '<option value="">Selecione um estado</option>';
+            $.each(data, function (key, val) {
+                options += '<option value="' + val.sigla + '">' + val.nome + '</option>';
+            });
+            $("#estado").html(options);
+
+            $("#estado").change(function () {
+
+                var options_cidades = '';
+                var str = "";
+
+                $("#estado option:selected").each(function () {
+                    str += $(this).text();
+                });
+
+                $.each(data, function (key, val) {
+                    if (val.nome == str) {
+                        $.each(val.cidades, function (key_city, val_city) {
+                            options_cidades += '<option value="' + val_city + '">' + val_city + '</option>';
+                        });
+                    }
+                });
+                $("#cidade").html(options_cidades);
+
+            }).change();
+
+        });
+
+    });
+
+</script>

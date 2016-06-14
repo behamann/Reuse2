@@ -76,7 +76,7 @@
                 <!-- Sidebar Menu -->
                 <ul class="account-nav">
                     <li>@Html.ActionLink("Minha conta", "Index")</li>
-                    <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", User.Identity.Name } })</li>
+                    <li>@Html.ActionLink("Editar conta", "Edit", new RouteValueDictionary { { "name", User.Identity.Name.ToString() } })</li>
                     <li>@Html.ActionLink("Histórico de trocas", "History")</li>
                     <li>@Html.ActionLink("Meus anúncios", "MyListings")</li>
                     <li>@Html.ActionLink("Troque sua senha", "ChangePassword")</li>

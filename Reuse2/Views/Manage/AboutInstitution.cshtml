@@ -1,0 +1,159 @@
+﻿@model Reuse2.Models.IndexViewModel
+@{
+    ViewBag.Title = "Gerenciar";
+    var tipoDeInstituicao = Reuse2.Models.TipoDeInstituicao.getTipos();
+    var anunciosDoUsuario = Reuse2.Models.Anuncio.getAnunciosPorId(Model.id, 6);
+    var message = Request.Params["Message"];
+}
+
+<!-- Page heading two starts -->
+
+<div class="page-heading-two">
+    <div class="container">
+        <h2>Instituições</h2>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<!-- Page heading two ends -->
+
+@if (message == "UserEdited")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Successo!</strong> Seu perfil foi atualizado.
+    </div>
+}
+
+<!-- Actual content -->
+<div class="ecommerce">
+
+    <div class="row">
+        <div class="col-md-9 col-sm-8 col-md-push-3 col-sm-push-4">
+            <!-- Shopping items content -->
+            <div class="shopping-content">
+                <!-- Block Title -->
+                <h4><i class="fa fa-user color"></i>&nbsp; Sobre a instituição</h4>
+                <hr />
+                <div class="shopping-account">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-4 col-xs-4">
+                            <!-- Image -->
+                            <div class="">
+                                <img src="../../Content/img/User/@Model.avatar" style="max-width: 170px;" class="img-responsive img-thumbnail" alt="" />
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-8 col-xs-8">
+                            <!-- Your Name / Heading -->
+                            <h4>@Model.UserName</h4>
+                            <p><strong>Responsavel:</strong> @Model.nomeDoResponsavel</p>
+                            <p><strong>Tipo:</strong> @Model.tipoDeinstituicao</p>
+                            <div class="address">
+                                <!-- Address -->
+                                <p>
+                                    @Model.endereco<br />
+                                    @Model.cep, @(Model.bairro ?? "")<br />
+                                    @Model.cidade - @Model.estado
+                                </p>
+                                <!-- Phone number -->
+                                @if (Model.telefone != null)
+                                {
+                                    <span><i class="fa fa-phone color"></i>&nbsp; @Model.telefone </span><br />
+                                }
+                                <span>
+                                    <i class="fa fa-lg fa-mobile color"></i>&nbsp;
+                                    @Model.PhoneNumber
+                                </span><br />
+                                <!-- Email Address -->
+                                <span><i class="fa fa-envelope color"></i>&nbsp; @Model.email</span><br />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Meus pedidos</h4>
+                    <hr />
+                    <!-- Recent Purchase Table -->
+                    @if (anunciosDoUsuario.Count == 0)
+                    {
+                        <span>Nenhum resultado encontrado</span>
+                    }
+                    else
+                    {
+                        <!-- Owl carousel block starts -->
+                        <!-- Owl navigation -->
+                        <div class="owl-nav">
+                            <a class="owl-nav-prev"><i class="fa fa-chevron-left"></i></a>
+                            <a class="owl-nav-next"><i class="fa fa-chevron-right"></i></a>
+                        </div>
+                        <!-- Change values of data-items, data-auto-play, data-pagination & data-single-item  based on your needs -->
+                        <div class="owl-carousel" data-items="4" data-auto-play="true" data-pagination="false" data-single-item="false">
+                            <!-- Carousel item -->
+                            @foreach (var item in anunciosDoUsuario)
+                            {
+                                <div class="owl-content">
+                                    <a href="../Anuncios/Details/@item.anuncioID" class="">
+                                        @{ var text = (item.imagens.Count == 0 ? "no-image.png" : item.imagens.First().Id + item.imagens.First().Extension); }
+                                        <img src="../../Content/img/Anuncios/@text" alt="" class="img-responsive img-thumbnail" />
+                                    </a>
+                                    <h4>@Html.ActionLink(item.titulo, "Details/" + item.anuncioID, "Anuncios")</h4>
+                                    <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>
+                                    <p>Condição: @item.condicao</p>
+                                    @Html.ActionLink("Ver mais", "Details/" + item.anuncioID, "Anuncios")
+                                </div>
+                            }
+                        </div>
+                        <!-- Owl carousel block ends -->
+                    }
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Descrição da nossa causa</h4>
+                    <hr />
+                    <p>@Model.descricaoDaCausa</p>
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Itens mais necessitados</h4>
+                    <hr />
+                    <p>@Model.itensNecessitados</p>
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Método de coleta</h4>
+                    <hr />
+                    <p>@Model.metodoDeColeta</p>
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Área de cobertura</h4>
+                    <hr />
+                    <p>@Model.areaDeCobertura</p>
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Restrições de coleta</h4>
+                    <hr />
+                    <p>@Model.restricoesDeColeta</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-md-pull-9 col-sm-pull-8">
+
+                <!-- Shopping Sidebar -->
+                <div class="sidebar">
+
+                    <!-- Heading -->
+                    <h2>Tipos</h2>
+                    <!-- Sidebar Menu -->
+                    <ul class="account-nav">
+                        @foreach (Reuse2.Models.TipoDeInstituicao tipo in tipoDeInstituicao)
+                        {
+                            <li class="@(ViewBag.tipo == tipo.nome ? "selected" : "")">
+                                @Html.ActionLink(tipo.nome, "Institutions", new RouteValueDictionary { { "tipo", tipo.nome } })
+                            </li>
+                        }
+                        <li class="@(ViewBag.tipo == "Todos" ? "selected" : "")">
+                            @Html.ActionLink("Todas", "Institutions", new RouteValueDictionary { { "tipo", "Todos" } })
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>

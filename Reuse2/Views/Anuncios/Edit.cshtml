@@ -172,13 +172,13 @@
                       $('#subCategoria').html('');
                       $.each(response.list, function (i, item) {
                           $('#subCategoria').append($('<option>', {
-                              value: item.subCategoriaID,
+                              value: item.titulo,
                               text: item.titulo
                           }));
                       });
                   },
                   failure: function(msg) {
-                      console.log('erro');
+                      console.log('erro ao atualizar subcategorias');
                   }
             });
         }

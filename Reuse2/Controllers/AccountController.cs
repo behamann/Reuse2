@@ -80,6 +80,11 @@ namespace Reuse2.Controllers
             SignInStatus result = SignInStatus.Success;
             var cause = "";
             ApplicationUser signedUser = UserManager.FindByEmail(model.Email);
+            if(signedUser == null)
+            {
+                ModelState.AddModelError("", "Usuário não cadastrado, clique em registrar para criar uma conta");
+                return View(model);
+            }
             if (SignInManager.UserManager.IsLockedOut(signedUser.Id))
             {
                 result = SignInStatus.LockedOut;

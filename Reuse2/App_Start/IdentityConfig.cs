@@ -75,11 +75,31 @@ namespace Reuse2
         public static Task sendNovoAnuncioMessage(string nome, string email, int anuncio)
         {
             MailMessage msg = new MailMessage();
-            msg.From = new MailAddress(email);
+            msg.From = new MailAddress("naoresponda@reusebrasil.com");
             msg.To.Add(new MailAddress("bruno.hamann@outlook.com"));
             msg.Subject = "Reuse - Novo anuncio de " + nome;
             string html = "Por favor, clique neste <a href='http://reusebrasil.com/anuncios/ativar/" + anuncio + "'>link</a> para ativar o anuncio. <br> Preveja o anuncio <a href='http://reusebrasil.com/anuncios/details/" + anuncio + "'>aqui</a>";
             html += HttpUtility.HtmlEncode(html);
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+            SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(
+                System.Configuration.ConfigurationManager.AppSettings["user"],
+                System.Configuration.ConfigurationManager.AppSettings["pass"]);
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(msg);
+            return Task.FromResult(0);
+        }
+
+        public static Task sendNovoInteresseMessage(string nome, string nomeInteressado, string titulo)
+        {
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress("naoresponda@reusebrasil.com");
+            msg.To.Add(new MailAddress("bruno.hamann@outlook.com"));
+            msg.Subject = "Reuse - Novo interesse de " + nomeInteressado;
+            string html = "Olá "+nome+", alguém se interessou pelo seu anúncio "+titulo+"! Entre com sua conta no http://reusebrasil.com/ e veja suas notificações para mais detalhes.";
+            html = HttpUtility.HtmlEncode(html);
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
             SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
