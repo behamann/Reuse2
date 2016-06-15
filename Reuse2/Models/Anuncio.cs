@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace Reuse2.Models
@@ -74,6 +75,31 @@ namespace Reuse2.Models
         public static List<Anuncio> getUltimosAnuncios(string tipo)
         {
             return new ApplicationDbContext().Anuncios.Where(a => a.tipo == tipo).Where(a => a.ativo == true).Take(6).ToList();
+        }
+
+        public static List<string> getCidadesDosAnuncios()
+        {
+            var db = new ApplicationDbContext();
+            var list =
+               from pd in db.Anuncios
+               join p in db.Users on pd.pessoaID equals p.Id
+               where pd.ativo == true
+               orderby p.estado, p.cidade
+               select new { cidade = p.cidade + " - " + p.estado };
+            var teste = list.Distinct().ToList<object>();
+            var returnList = new List<string>();
+            foreach(var myObject in teste)
+            {
+                Type myType = myObject.GetType();
+                IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+
+                foreach (PropertyInfo prop in props)
+                {
+                    string propValue = (string)prop.GetValue(myObject, null);
+                    returnList.Add(propValue);
+                }
+            }
+            return returnList;
         }
     }
 }

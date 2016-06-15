@@ -1,10 +1,13 @@
 ﻿@model PagedList.IPagedList<Reuse2.Models.Anuncio>
 @using PagedList.Mvc;
+@using Microsoft.AspNet.Identity
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Anúncios";
     var categorias = Reuse2.Models.Categoria.getCategorias();
+    var cidades = Reuse2.Models.Anuncio.getCidadesDosAnuncios();
+    var user = Reuse2.Models.ApplicationUser.getUser(User.Identity.GetUserId());
     var message = Request.Params["Message"];
 }
 <!-- Page heading two starts -->
@@ -91,6 +94,13 @@
                                 <!-- Shopping item name / Heading -->
                                 <h4>@Html.ActionLink(@item.titulo, "Details", new RouteValueDictionary { { "id", @item.anuncioID } })</h4>
                                 <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>
+                                @{
+                                    if (user != null)
+                                    {
+                                        var dec = Reuse2.Models.DistanceAPIClasses.CalcularDistanciaEDuracao(user.cep, item.pessoa.cep);
+                                        <p>Distancia: @dec.distancia</p>
+                                    }
+                                }
                                 <div class="clearfix"></div>
                                 <!-- Shopping item hover block & link -->
                                 <div class="item-hover bg-color hidden-xs">
@@ -137,6 +147,22 @@
                     }
                     <li class="@(ViewBag.cat == "Todos" ? "selected" : "")">
                         @Html.ActionLink("Todas as categorias", "Index", new RouteValueDictionary { { "categoria", "Todos" } })
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar">
+                <!-- Heading -->
+                <h2>Cidades</h2>
+                <!-- Sidebar Menu -->
+                <ul class="list-unstyled my-list">
+                    @foreach (object cidade in cidades)
+                    {
+                    <li class="@(ViewBag.cidade == ((string)cidade).Split('-')[0].Trim() ? "selected" : "")" >
+                        @Html.ActionLink(cidade.ToString(), "Index", new RouteValueDictionary { { "cidade", cidade } })
+                    </li>
+                    }
+                    <li class="@(ViewBag.cidade == "" ? "selected" : "")">
+                        @Html.ActionLink("Todas as cidades", "Index", new RouteValueDictionary { { "cidade", "" } })
                     </li>
                 </ul>
             </div>

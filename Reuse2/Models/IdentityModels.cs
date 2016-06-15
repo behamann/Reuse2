@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Reuse2.Models
 {
@@ -64,6 +65,11 @@ namespace Reuse2.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+        }
+
+        public static ApplicationUser getUser(string id)
+        {
+            return HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.Current.User.Identity.GetUserId());
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -252,6 +258,8 @@ namespace Reuse2.Models
         public System.Data.Entity.DbSet<Reuse2.Models.Imagem> Imagens { get; set; }
 
         public System.Data.Entity.DbSet<Reuse2.Models.TipoDeInstituicao> Tipos { get; set; }
+
+        public System.Data.Entity.DbSet<Reuse2.Models.DistanciaEntreCeps> DistanciaEntreCeps { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

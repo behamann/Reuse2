@@ -1,7 +1,9 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "Home Page";
     var ofertas = Reuse2.Models.Anuncio.getUltimosAnuncios("Ofertas");
     var pedidos = Reuse2.Models.Anuncio.getUltimosAnuncios("Pedidos");
+    var user = Reuse2.Models.ApplicationUser.getUser(User.Identity.GetUserId());
 }
 
 <!-- Carousel -->
@@ -19,7 +21,7 @@
     <ol class="carousel-indicators">
         <li data-target="#bs-carousel-2" data-slide-to="0" class="active"></li>
         <li data-target="#bs-carousel-2" data-slide-to="1"></li>
-         <!--<li data-target="#bs-carousel-2" data-slide-to="2"></li>-->
+        <li data-target="#bs-carousel-2" data-slide-to="2"></li>
     </ol>
     <!-- Slides. You can also add captions -->
     <div class="carousel-inner">
@@ -133,6 +135,13 @@
             </a>
             <h4>@Html.ActionLink(item.titulo, "Details/" + item.anuncioID, "Anuncios")</h4>
             <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>
+            @{
+                if (user != null)
+                {
+                    var dec = Reuse2.Models.DistanceAPIClasses.CalcularDistanciaEDuracao(user.cep, item.pessoa.cep);
+                    <p>Distancia: @dec.distancia</p>
+                }
+            }
             <p>Condição: @item.condicao</p>
             @Html.ActionLink("Ver mais", "Details/" + item.anuncioID, "Anuncios", new { htmlAttributes = new { @class = "btn btn-color btn-xs" } }) 
         </div>
@@ -164,6 +173,13 @@
             </a>
             <h4>@Html.ActionLink(item.titulo, "Details/"+item.anuncioID, "Anuncios")</h4>
             <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>
+            @{
+                if (user != null)
+                {
+                    var dec = Reuse2.Models.DistanceAPIClasses.CalcularDistanciaEDuracao(user.cep, item.pessoa.cep);
+                    <p>Distancia: @dec.distancia</p>
+                }
+            }
             <p>Condição: @item.condicao</p>
             @Html.ActionLink("Ver mais", "Details/"+item.anuncioID, "Anuncios", new { htmlAttributes = new { @class = "btn btn-color btn-xs" } }) 
         </div>

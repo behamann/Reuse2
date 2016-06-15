@@ -140,7 +140,7 @@ dl dd{
 }
 /* Thumbnail */
 .img-thumbnail {
-    /*height:200px;*/
+    height:200px;
     width:300px;
 	padding: 2px;
 	background: #fff;

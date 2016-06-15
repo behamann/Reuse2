@@ -1,8 +1,10 @@
 ﻿@model Reuse2.Models.Anuncio
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Details";
     var categorias = Reuse2.Models.Categoria.getCategorias();
+    var cidades = Reuse2.Models.Anuncio.getCidadesDosAnuncios();
+    var user = Reuse2.Models.ApplicationUser.getUser(User.Identity.GetUserId());
     var message = Request.Params["Message"];
 }
 
@@ -132,6 +134,16 @@
                                         <th>Localização</th>
                                         <td>@Html.DisplayFor(model => model.pessoa.cidade) - @Html.DisplayFor(model => model.pessoa.estado)</td>
                                     </tr>
+                                    @{
+                                        if (user != null)
+                                        {
+                                            var dec = Reuse2.Models.DistanceAPIClasses.CalcularDistanciaEDuracao(user.cep, Model.pessoa.cep);
+                                            <tr>
+                                                <th>Distancia</th>
+                                                <td>@dec.distancia - @dec.duracao de seu lugar</td>
+                                            </tr>
+                                        }
+                                    }
                                 </table>
                             </div>
                             <!-- Quantity and add to cart button -->
@@ -223,6 +235,22 @@
                     }
                     <li>
                         @Html.ActionLink("Todas as categorias", "Index", new RouteValueDictionary { { "categoria", "Todos" } })
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar">
+                <!-- Heading -->
+                <h2>Cidades</h2>
+                <!-- Sidebar Menu -->
+                <ul class="list-unstyled my-list">
+                    @foreach (object cidade in cidades)
+                    {
+                        <li class="@(ViewBag.cidade == ((string)cidade).Split('-')[0].Trim() ? "selected" : "")">
+                            @Html.ActionLink(cidade.ToString(), "Index", new RouteValueDictionary { { "cidade", cidade } })
+                        </li>
+                    }
+                    <li class="@(ViewBag.cidade == "" ? "selected" : "")">
+                        @Html.ActionLink("Todas as cidades", "Index", new RouteValueDictionary { { "cidade", "" } })
                     </li>
                 </ul>
             </div>

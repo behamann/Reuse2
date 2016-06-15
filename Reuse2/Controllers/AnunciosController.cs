@@ -19,8 +19,13 @@ namespace Reuse2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Anuncios
-        public ActionResult Index(string tipo, string categoria, string busca, string currentFilter, int? page)
+        public ActionResult Index(string tipo, string categoria, string cidade, string busca, string currentFilter, int? page)
         {
+            var cidadeBusca = String.Empty;
+            if (cidade != null)
+            {
+                cidadeBusca = cidade.Split('-')[0].Trim();
+            }         
             if (busca != null)
             {
                 page = 1;
@@ -41,8 +46,13 @@ namespace Reuse2.Controllers
             {
                 Session["categoria"] = categoria;
             }
+            if ((string)Session["cidade"] != cidadeBusca && cidadeBusca != null)
+            {
+                Session["cidade"] = cidadeBusca;
+            }
             var cat = (string)Session["categoria"];
             var tip = (string)Session["tipo"];
+            var cid = (string)Session["cidade"];
 
             if (!String.IsNullOrEmpty(busca))
             {
@@ -58,6 +68,11 @@ namespace Reuse2.Controllers
             {
                 tip = "Ofertas";
             }
+
+            if (cid != "")
+            {
+                anuncios = anuncios.Where(a => a.pessoa.cidade == cid);
+            }
             anuncios = anuncios
                 .Where(a => a.tipo == tip)
                 .Where(a => a.ativo == true)
@@ -65,6 +80,7 @@ namespace Reuse2.Controllers
             
             ViewBag.tipo = tip;
             ViewBag.cat = cat;
+            ViewBag.cidade = cidadeBusca;
 
             int pageSize = 9;
             int pageNumber = (page ?? 1);

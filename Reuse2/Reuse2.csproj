@@ -273,9 +273,15 @@
     <Compile Include="Migrations\201606042107152_tipodeinstituicao.Designer.cs">
       <DependentUpon>201606042107152_tipodeinstituicao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606151801177_distanciaEntreCeps.cs" />
+    <Compile Include="Migrations\201606151801177_distanciaEntreCeps.Designer.cs">
+      <DependentUpon>201606151801177_distanciaEntreCeps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Anuncio.cs" />
+    <Compile Include="Models\DistanceAPIClasses.cs" />
+    <Compile Include="Models\DistanciaEntreCeps.cs" />
     <Compile Include="Models\Imagem.cs" />
     <Compile Include="Models\Interesse.cs" />
     <Compile Include="Models\Categoria.cs" />
@@ -649,6 +655,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606042107152_tipodeinstituicao.resx">
       <DependentUpon>201606042107152_tipodeinstituicao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606151801177_distanciaEntreCeps.resx">
+      <DependentUpon>201606151801177_distanciaEntreCeps.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
