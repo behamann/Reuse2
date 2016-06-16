@@ -284,7 +284,7 @@ namespace Reuse2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //var interesses = db.Interesses.Where(i => i.anuncioID == anuncioID).ToList();
-            var interesses = Interesse.getInteressesByAnuncio(anuncioID).Where(i => i.aceito == null).ToList();
+            var interesses = Interesse.getInteressesByAnuncio(anuncioID).ToList();
             if(interesses.Count == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

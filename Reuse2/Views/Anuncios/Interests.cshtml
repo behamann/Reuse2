@@ -10,17 +10,34 @@
     <div class="row">
         <h3>@ViewBag.Title</h3>
         <br>
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Aviso.</strong> Aceitando o interesse de um usuário, você indica que já realizou contato com a outra pessoa e a troca foi concluída. 
+        </div>
         @foreach (var interesse in Model)
         {
             <div>
-                <h4>@interesse.Users.First().UserName está interessado.</h4>
+                <h4>Interesse de @interesse.Users.First().UserName.</h4>
                 <p>Email: @interesse.Users.First().Email</p>
                 @if(interesse.Users.First().telefone != null) {
                     <p>Telefone: @interesse.Users.First().telefone</p>
                 }
                 <p>Celular: @interesse.Users.First().PhoneNumber</p>
+                @if(interesse.aceito == true)
+                {
+                    <h5>Você aceitou este interesse.</h5>
+                }
+                else if (interesse.aceito == null)
+                {
+                    @Html.ActionLink("Aceitar", "ConfirmarTroca", new { anuncioID = interesse.anuncioID, userID = interesse.Users.First().Id }, new { @class = "white btn btn-color", onclick = "return confirm('Deseja aceitar este interesse? Ao aceita-lo você confirma que já realizou contato e a troca com o outro usuário.')" })
+                }
+                else
+                {
+                    <h5>Este interesse foi negado.</h5>
+                }
                 <hr />
-                @Html.ActionLink("Aceitar", "ConfirmarTroca", new { anuncioID = interesse.anuncioID, userID = interesse.Users.First().Id  }, new { @class = "white btn btn-color" })                
             </div>
         }
     </div>
