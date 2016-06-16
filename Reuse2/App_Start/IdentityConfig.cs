@@ -92,11 +92,11 @@ namespace Reuse2
             return Task.FromResult(0);
         }
 
-        public static Task sendNovoInteresseMessage(string nome, string nomeInteressado, string titulo)
+        public static Task sendNovoInteresseMessage(string nome, string email, string nomeInteressado, string titulo)
         {
             MailMessage msg = new MailMessage();
             msg.From = new MailAddress("naoresponda@reusebrasil.com");
-            msg.To.Add(new MailAddress("bruno.hamann@outlook.com"));
+            msg.To.Add(new MailAddress(email));
             msg.Subject = "Reuse - Novo interesse de " + nomeInteressado;
             string html = "Olá "+nome+", alguém se interessou pelo seu anúncio "+titulo+"! Entre com sua conta no http://reusebrasil.com/ e veja suas notificações para mais detalhes.";
             html = HttpUtility.HtmlEncode(html);

@@ -272,7 +272,7 @@ namespace Reuse2.Controllers
             anuncio.status = "Com interessados";
             db.Entry(anuncio).State = EntityState.Modified;
             db.SaveChanges();
-            EmailService.sendNovoInteresseMessage(anuncio.pessoa.UserName, User.Identity.Name, anuncio.titulo);
+            EmailService.sendNovoInteresseMessage(anuncio.pessoa.UserName, anuncio.pessoa.Email, User.Identity.Name, anuncio.titulo);
             return RedirectToAction("Index", new { Message = "interestCreated" });
         }
 
