@@ -323,6 +323,30 @@ namespace Reuse2.Controllers
             return RedirectToAction("Index", new { Message = "tradeConfirmed" });
         }
 
+        public ActionResult Proximos(int? page, string cep)
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var anuncios = db.Anuncios.ToList()
+                .Where(a => a.ativo == true)
+                .OrderBy(a => a.titulo); 
+
+            var cepUser = user != null ? user.cep : cep;
+
+            if (cepUser != null)
+            {
+                foreach (var anuncio in anuncios)
+                {
+                    anuncio.distancia = DistanceAPIClasses.CalcularDistanciaEDuracao(cepUser, anuncio.pessoa.cep);
+                }
+
+                anuncios = anuncios.OrderBy(a => a.distancia.distanciaCalc);
+            }
+
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+            return View(anuncios.ToPagedList(pageNumber, pageSize));
+        }
+
         [HttpPost]
         public JsonResult DeleteFile(string id)
         {

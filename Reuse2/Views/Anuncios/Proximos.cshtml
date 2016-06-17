@@ -1,0 +1,83 @@
+﻿@model PagedList.IPagedList<Reuse2.Models.Anuncio>
+@using PagedList.Mvc;
+@using Microsoft.AspNet.Identity
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Anúncios";
+    var user = Reuse2.Models.ApplicationUser.getUser(User.Identity.GetUserId());
+    var cep = user != null ? user.cep : Request.Params["cep"];
+}
+<!-- Page heading two starts -->
+
+<div class="page-heading-two">
+    <div class="container">
+        <h2>Anúncios mais próximos</h2>
+        @Html.ActionLink("Criar anúncio", "Create", "Anuncios", new { @class = "white btn btn-lg pull-right btn-color" })
+    </div>
+</div>
+
+<!-- Page heading two ends -->
+
+<!-- Shopping Items -->
+
+<div class="ecommerce">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <!-- Shopping items content -->
+            <div class="shopping-content container">
+                <!-- Block Title -->
+                    <div class="row container">
+                        <h4>Digite seu cep para calcular a distancia entre você e os anúncios: </h4>
+                        @using (Html.BeginForm("Proximos", "Anuncios", FormMethod.Get, new { @class = "col-md-4" } ))
+                        {
+                            <p class="pull-left">
+                                @Html.TextBox("cep", cep as string)
+                                <button type="submit" class="btn btn-xs green" style="margin-bottom: 2%; background-color: #51D466; padding: 3px 8px;">
+                                    <i class="fa fa-search white"></i>
+                                </button>
+                            </p>
+                        }
+                    </div>
+                    <div class="row">
+                        @if(cep != null) {
+                            foreach (var item in Model)
+                            {
+                                if (item.distancia.distancia != "Indeterminado")
+                                {
+                                    <div class="col-md-4 col-sm-6">
+                                        <!-- Shopping items -->
+                                        <div class="shopping-item">
+                                            <!-- Image -->
+                                            <a href="Anuncios/Details/@item.anuncioID">
+                                                @{ var text = (item.imagens.Count == 0 ? "no-image.png" : item.imagens.First().Id + item.imagens.First().Extension); }
+                                                <img class="img-responsive" src="../../content/img/Anuncios/@text" alt="" />
+                                            </a>
+                                            <!-- Shopping item name / Heading -->
+                                            <h4>@Html.ActionLink(@item.titulo, "Details", new RouteValueDictionary { { "id", @item.anuncioID } })</h4>
+                                            <p>Localização: @item.pessoa.cidade - @item.pessoa.estado</p>
+                                            <p>Distancia: @item.distancia.distancia</p>
+                                            <p>@item.distancia.duracao de seu local</p>
+                                            <div class="clearfix"></div>
+                                            <!-- Shopping item hover block & link -->
+                                            <div class="item-hover bg-color hidden-xs">
+                                                @Html.ActionLink("Ver mais", "Details", new RouteValueDictionary { { "id", @item.anuncioID } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                    <!-- Pagination -->
+                    <br />
+                    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                    <!-- Pagination end-->
+                </div>
+        </div>
+    </div>
+
+</div>

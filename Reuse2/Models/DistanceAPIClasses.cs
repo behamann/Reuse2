@@ -39,12 +39,16 @@ namespace Reuse2.Models
                     {
                         string distanciaRetornada = responseData.routes.First().legs.First().distance.text;
                         string duracaoRetornada = responseData.routes.First().legs.First().duration.text;
+                        double distanciaRetornadaCalc = responseData.routes.First().legs.First().distance.value;
+                        double duracaoRetornadaCalc = responseData.routes.First().legs.First().duration.value;
                         if (distanciaRetornada != "")
                         {
                             dec.cep1 = origem;
                             dec.cep2 = destino;
                             dec.distancia = distanciaRetornada;
                             dec.duracao = duracaoRetornada;
+                            dec.distanciaCalc = distanciaRetornadaCalc;
+                            dec.duracaoCalc = duracaoRetornadaCalc;
                             db.DistanciaEntreCeps.Add(dec);
                             db.SaveChanges();
                         }
@@ -55,6 +59,8 @@ namespace Reuse2.Models
                         dec.cep2 = destino;
                         dec.distancia = "Indeterminado";
                         dec.duracao = "Indeterminado";
+                        dec.distanciaCalc = 0;
+                        dec.duracaoCalc = 0;
                         db.DistanciaEntreCeps.Add(dec);
                         db.SaveChanges();
                     }

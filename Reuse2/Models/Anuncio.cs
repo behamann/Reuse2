@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -46,6 +47,9 @@ namespace Reuse2.Models
         public string video { get; set; }
 
         public bool ativo { get; set; }
+
+        [NotMapped]
+        public DistanciaEntreCeps distancia { get; set; }
 
         [DisplayName("Tipo")]
         [Required(ErrorMessage = "Este campo é obrigatório")]

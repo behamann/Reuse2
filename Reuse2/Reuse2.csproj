@@ -277,6 +277,10 @@
     <Compile Include="Migrations\201606151801177_distanciaEntreCeps.Designer.cs">
       <DependentUpon>201606151801177_distanciaEntreCeps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606171438308_distanciaEntreCepsCalculo.cs" />
+    <Compile Include="Migrations\201606171438308_distanciaEntreCepsCalculo.Designer.cs">
+      <DependentUpon>201606171438308_distanciaEntreCepsCalculo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Anuncio.cs" />
@@ -589,6 +593,7 @@
     <Content Include="estados_cidades.json" />
     <Content Include="Views\Manage\Institutions.cshtml" />
     <Content Include="Views\Manage\AboutInstitution.cshtml" />
+    <Content Include="Views\Anuncios\Proximos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Validators\" />
@@ -658,6 +663,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606151801177_distanciaEntreCeps.resx">
       <DependentUpon>201606151801177_distanciaEntreCeps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606171438308_distanciaEntreCepsCalculo.resx">
+      <DependentUpon>201606171438308_distanciaEntreCepsCalculo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
