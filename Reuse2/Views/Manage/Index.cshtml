@@ -3,6 +3,7 @@
     ViewBag.Title = "Gerenciar";
     var anunciosDoUsuario = Reuse2.Models.Anuncio.getAnunciosPorId(Model.id, 6);
     var historicoDeTrocas = Reuse2.Models.Interesse.getInteressesByUser(Model.id);
+    var perguntasDoUsuario = Reuse2.Models.Anuncio.getPerguntasPorId(Model.id, 6);
     var message = Request.Params["Message"];
 }
 
@@ -202,6 +203,44 @@
                             {
                                 @Html.ActionLink("Ver mais", "MyListings")
                             }
+                        </div>
+                    }
+                    <br />
+                    <h4><i class="fa fa-user color"></i>&nbsp; Minhas perguntas</h4>
+                    <hr />
+                    <!-- Recent Purchase Table -->
+                    @if (perguntasDoUsuario.Count == 0)
+                    {
+                        <span>Nenhum resultado encontrado</span>
+                    }
+                    else
+                    {
+                        <div class="rptable table-responsive">
+                            <table class="table table-bordered">
+                                <!-- Table Header -->
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Anúncio</th>
+                                        <th>Descrição</th>
+                                        <th>Resposta</th>
+                                        <th>Data</th>
+                                    </tr>
+                                </thead>
+                                <!-- Table Body -->
+                                <tbody>
+                                    @foreach (var pergunta in perguntasDoUsuario)
+                                    {
+                                        <tr>
+                                            <td>@Html.ActionLink(pergunta.AnuncioId.ToString(), "Details/" + pergunta.AnuncioId, "Anuncios")</td>
+                                            <td>@pergunta.anuncio.titulo</td>
+                                            <td>@pergunta.descricao</td>
+                                            <td>@pergunta.resposta</td>
+                                            <td>@pergunta.dataDeCriacao</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     }
                     </div>

@@ -29,8 +29,15 @@
                             {
                                 <li>
                                     <!-- Item image -->
-                                    <div class="cart-img">
-                                        <a href="#"><img src="img/ecommerce/view-cart/1.png" alt="" class="img-responsive"></a>
+                                    <div class="cart-img" style="margin-right: 25%;">
+                                        @if (anuncio.imagens.Count >= 1)
+                                        {
+                                            <a href="#"><img style="width: 55%;" src="../../Content/img/Anuncios/@anuncio.imagens.First().FileName@anuncio.imagens.First().Extension" alt="" class="img-responsive"></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#"><img style="width: 55%;" src="../../Content/img/Anuncios/no-image.png" alt="" class="img-responsive"></a>
+                                        }
                                     </div>
                                     <!-- Item heading and price -->
                                     <div class="cart-title">

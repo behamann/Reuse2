@@ -261,6 +261,8 @@ namespace Reuse2.Models
 
         public System.Data.Entity.DbSet<Reuse2.Models.DistanciaEntreCeps> DistanciaEntreCeps { get; set; }
 
+        public System.Data.Entity.DbSet<Reuse2.Models.Pergunta> Perguntas { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

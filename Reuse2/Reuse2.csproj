@@ -281,6 +281,14 @@
     <Compile Include="Migrations\201606171438308_distanciaEntreCepsCalculo.Designer.cs">
       <DependentUpon>201606171438308_distanciaEntreCepsCalculo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606201205359_perguntas.cs" />
+    <Compile Include="Migrations\201606201205359_perguntas.Designer.cs">
+      <DependentUpon>201606201205359_perguntas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606201216445_perguntasIdString.cs" />
+    <Compile Include="Migrations\201606201216445_perguntasIdString.Designer.cs">
+      <DependentUpon>201606201216445_perguntasIdString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Anuncio.cs" />
@@ -291,6 +299,7 @@
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Pergunta.cs" />
     <Compile Include="Models\Subcategoria.cs" />
     <Compile Include="Models\TipoDeInstituicao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -666,6 +675,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606171438308_distanciaEntreCepsCalculo.resx">
       <DependentUpon>201606171438308_distanciaEntreCepsCalculo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606201205359_perguntas.resx">
+      <DependentUpon>201606201205359_perguntas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606201216445_perguntasIdString.resx">
+      <DependentUpon>201606201216445_perguntasIdString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

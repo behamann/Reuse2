@@ -348,6 +348,55 @@ namespace Reuse2.Controllers
         }
 
         [HttpPost]
+        public ActionResult CriarPergunta(int anuncioID, string descricaoAnuncio)
+        {
+            var db = new ApplicationDbContext();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var anuncio = db.Anuncios.Find(anuncioID);
+            if (User.Identity.Name == "")
+            {
+                return RedirectToAction("Login", "Account", new { Message = "notAuthenticatedToAsk" });
+            }
+            if (anuncio.pessoa.UserName == User.Identity.Name)
+            {
+                return RedirectToAction("Details/" + anuncioID, new { Message = "sameUser" });
+            }
+            var pergunta = new Pergunta();
+            pergunta.AnuncioId = anuncioID;
+            pergunta.dataDeCriacao = DateTime.Now;
+            pergunta.descricao = descricaoAnuncio;
+            pergunta.questionadorId = User.Identity.GetUserId();
+            db.Perguntas.Add(pergunta);
+            db.SaveChanges();
+            EmailService.sendNovoPerguntaMessage(anuncio.pessoa.UserName, anuncio.pessoa.Email, user.UserName, anuncio.titulo, anuncio.anuncioID);
+            return RedirectToAction("Details/"+anuncioID, new { Message = "questionCreated" });
+        }
+
+        [HttpPost]
+        public ActionResult ResponderPergunta(int perguntaID, int anuncioID, string respostaAnuncio)
+        {
+            var db = new ApplicationDbContext();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var anuncio = db.Anuncios.Find(anuncioID);
+            var pergunta = db.Perguntas.Find(perguntaID);
+            pergunta.resposta = respostaAnuncio;
+            db.Entry(pergunta).State = EntityState.Modified;
+            db.SaveChanges();
+            EmailService.sendNovoRespostaMessage(user.UserName, user.Email, anuncio.pessoa.UserName, anuncio.titulo, anuncio.anuncioID);
+            return RedirectToAction("Details/" + anuncioID, new { Message = "questionResponded" });
+        }
+
+        public ActionResult ExcluirResposta(int id, int anuncioID)
+        {
+            var db = new ApplicationDbContext();
+            var pergunta = db.Perguntas.Find(id);
+            pergunta.resposta = null;
+            db.Entry(pergunta).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Details/" + anuncioID, new { Message = "answerExcluded" });
+        }
+
+        [HttpPost]
         public JsonResult DeleteFile(string id)
         {
             if (String.IsNullOrEmpty(id))

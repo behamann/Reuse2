@@ -15,6 +15,16 @@
     </div>
 }
 
+@if (message == "notAuthenticatedToAsk")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Opa!</strong> Você precisa estar logado para criar uma pergunta.
+    </div>
+}
+
 <h2>@ViewBag.Title.</h2>
 <div class="row">
     <div class="col-md-8">

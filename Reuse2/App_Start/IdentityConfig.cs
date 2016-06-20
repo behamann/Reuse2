@@ -111,6 +111,48 @@ namespace Reuse2
             smtpClient.Send(msg);
             return Task.FromResult(0);
         }
+
+        public static Task sendNovoPerguntaMessage(string nome, string email, string nomeInteressado, string titulo, int anuncioID)
+        {
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress("naoresponda@reusebrasil.com");
+            msg.To.Add(new MailAddress(email));
+            msg.Subject = "Reuse - Nova pergunta de " + nomeInteressado;
+            string html = "Olá " + nome + ", alguém perguntou no seu anúncio " + titulo + "! Acesse http://reusebrasil.com/Anuncios/Details/" + anuncioID + " para mais detalhes.";
+            html = HttpUtility.HtmlEncode(html);
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+            SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(
+                System.Configuration.ConfigurationManager.AppSettings["user"],
+                System.Configuration.ConfigurationManager.AppSettings["pass"]);
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(msg);
+            return Task.FromResult(0);
+        }
+
+
+
+        public static Task sendNovoRespostaMessage(string nome, string email, string nomeInteressado, string titulo, int anuncioID)
+        {
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress("naoresponda@reusebrasil.com");
+            msg.To.Add(new MailAddress(email));
+            msg.Subject = "Reuse - Nova resposta de " + nomeInteressado;
+            string html = "Olá " + nome + ", alguém respondeu sua pergunta do anúncio " + titulo + "! Acesse http://reusebrasil.com/Anuncios/Details/"+anuncioID+" para mais detalhes.";
+            html = HttpUtility.HtmlEncode(html);
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+            SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(
+                System.Configuration.ConfigurationManager.AppSettings["user"],
+                System.Configuration.ConfigurationManager.AppSettings["pass"]);
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(msg);
+            return Task.FromResult(0);
+        }
     }
 
     public class SmsService : IIdentityMessageService

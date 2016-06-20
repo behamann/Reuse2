@@ -61,6 +61,8 @@ namespace Reuse2.Models
 
         public virtual ICollection<Imagem> imagens { get; set; }
 
+        public virtual ICollection<Pergunta> perguntas { get; set; }
+
         public static List<Anuncio> getHistoricoDeTrocas(string id)
         {
             return new ApplicationDbContext().Anuncios.Take(6).ToList();
@@ -69,6 +71,11 @@ namespace Reuse2.Models
         public static List<Anuncio> getAnunciosPorId(string id, int quantidade)
         {
             return new ApplicationDbContext().Anuncios.Where(a => a.pessoaID == id).Take(quantidade).ToList();
+        }
+
+        public static List<Pergunta> getPerguntasPorId(string id, int quantidade)
+        {
+            return new ApplicationDbContext().Perguntas.Where(a => a.questionadorId == id).Take(quantidade).ToList();
         }
 
         public static List<Anuncio> getAnunciosComInteressadosPorId(string id)

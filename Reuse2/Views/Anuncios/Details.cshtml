@@ -28,6 +28,46 @@
     </div>
 }
 
+@if (message == "questionCreated")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Sucesso!</strong> Sua pergunta foi criada, aguarde o anunciante responder agora.
+    </div>
+}
+
+@if (message == "questionResponded")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Sucesso!</strong> Sua resposta foi criada, o autor da pergunta foi avisado.
+    </div>
+}
+
+@if (message == "answerExcluded")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Sucesso!</strong> Sua resposta foi excluída.
+    </div>
+}
+
+@if (message == "sameUser")
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Opa!</strong> Você não pode perguntar na sua própria pergunta.
+    </div>
+}
+
 <!-- Page heading two ends -->
 <!-- Actual content -->
 <div class="ecommerce">
@@ -53,25 +93,25 @@
                             <div id="bs-carousel-1" class="carousel slide" data-ride="carousel" data-interval="3000" data-pause="hover" data-wrap="true">
                                 <!-- Bootstrap indicators. If you don't need indicators, remove the below section -->
                                 <ol class="carousel-indicators">
-                                @if (Model.imagens.Count > 1)
-                                {
-                                    foreach (var img in Model.imagens.Select((value, i) => new { i, value }))
+                                    @if (Model.imagens.Count > 1)
                                     {
-                                        if (img.i == 0)
+                                        foreach (var img in Model.imagens.Select((value, i) => new { i, value }))
                                         {
-                                            <li data-target="#bs-carousel-1" data-slide-to="@img.i" class="active"></li>
-                                        }
-                                        else
-                                        {
-                                            <li data-target="#bs-carousel-1" data-slide-to="@img.i"></li>
+                                            if (img.i == 0)
+                                            {
+                                                <li data-target="#bs-carousel-1" data-slide-to="@img.i" class="active"></li>
+                                            }
+                                            else
+                                            {
+                                                <li data-target="#bs-carousel-1" data-slide-to="@img.i"></li>
+                                            }
                                         }
                                     }
-                                }
                                 </ol>
                                 <!-- Slides. You can also add captions -->
                                 <div class="carousel-inner">
                                     <!-- Item, First item should have extra class "active" -->
-                                    @foreach (var img in Model.imagens.Select((value,i) => new {i, value}))
+                                    @foreach (var img in Model.imagens.Select((value, i) => new { i, value }))
                                     {
                                         if (img.i == 0)
                                         {
@@ -161,10 +201,10 @@
                                     </button>
                                     @if (Model.tipo == "Ofertas")
                                     {
-                                    <button class="btn btn-color" target="popup"
-                                            onclick="window.open('https://twitter.com/intent/tweet?text=Olhem só: @Model.titulo para doação. Acesse http://reusebrasil.com/Anuncios/Details/@Model.anuncioID para ver mais.', 'name', 'width=600,height=400')">
-                                        <i class="fa fa-twitter white"></i> Tweet
-                                    </button>
+                                        <button class="btn btn-color" target="popup"
+                                                onclick="window.open('https://twitter.com/intent/tweet?text=Olhem só: @Model.titulo para doação. Acesse http://reusebrasil.com/Anuncios/Details/@Model.anuncioID para ver mais.', 'name', 'width=600,height=400')">
+                                            <i class="fa fa-twitter white"></i> Tweet
+                                        </button>
                                     }
                                     else
                                     {
@@ -186,6 +226,7 @@
                                 <!-- Use uniqe name for "href" in below anchor tags -->
                                 <li class="active"><a href="#tab1" data-toggle="tab">Descrição</a></li>
                                 <li><a href="#tab2" data-toggle="tab">Informações do anunciante</a></li>
+                                <li><a href="#tab3" data-toggle="tab">Perguntas</a></li>
                             </ul>
 
                             <!-- Tab Content -->
@@ -200,6 +241,80 @@
                                     <h5>Perfil do anunciante<span class="color">:-</span></h5>
                                     <p>Nome: @Html.DisplayFor(model => model.pessoa.UserName)</p>
                                     <p>Localização: @Html.DisplayFor(model => model.pessoa.cidade) - @Html.DisplayFor(model => model.pessoa.estado)</p>
+                                </div>
+                                <div class="tab-pane fade" id="tab3">
+                                    <h5>Perguntas<span class="color">:-</span></h5>
+                                    @if (User.Identity.Name != Model.pessoa.UserName)
+                                    {
+                                        using (Html.BeginForm("CriarPergunta", "Anuncios", FormMethod.Post, new { @class = "col-md-12" }))
+                                        {
+                                            <p>
+                                                @Html.HiddenFor(Model => Model.anuncioID)
+                                                Faça uma pergunta:
+                                                <br />
+                                                @Html.TextArea("descricaoAnuncio", null, new { cols = 70 })
+                                                <br />
+                                                <button type="submit" class="btn btn-xs green" style="margin-bottom: 0.5%; background-color: #51D466; color: #fff !important;">Perguntar</button>
+                                            </p>
+                                        }
+                                    }
+                                    <div>
+                                        @foreach (var pergunta in Model.perguntas)
+                                        {
+                                            <div>
+                                                <div>
+                                                    <h4 class="panel-title">
+                                                    <i class="fa fa-angle-right"></i>
+                                                    @if (User.Identity.Name == Model.pessoa.UserName)
+                                                    {
+                                                        @pergunta.questionador.UserName <span> perguntou: </span>
+                                                    }
+                                                    @pergunta.descricao
+                                                </h4>
+                                                </div>
+                                                <div>
+                                                    <div>
+                                                        @if (User.Identity.Name == Model.pessoa.UserName && pergunta.resposta == null)
+                                                        {
+                                                            using (Html.BeginForm("ResponderPergunta", "Anuncios", FormMethod.Post, new { @class = "col-md-12" }))
+                                                            {
+                                                                <p>
+                                                                    @Html.HiddenFor(Model => Model.anuncioID)
+                                                                    @Html.Hidden("perguntaID", pergunta.perguntaID)
+                                                                    @Html.TextArea("respostaAnuncio", null, new { cols = 70 })
+                                                                    <br />
+                                                                    <button type="submit" class="btn btn-xs green" style="margin-bottom: 0.5%; background-color: #51D466; color: #fff !important;">Responder</button>
+                                                                </p>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@pergunta.resposta</span>
+                                                            if (User.Identity.Name == Model.pessoa.UserName)
+                                                            {
+                                                                <a class="edit">Editar</a>
+                                                                @Html.ActionLink("Excluir", "ExcluirResposta", new RouteValueDictionary { { "id", pergunta.perguntaID }, { "anuncioID", Model.anuncioID } })
+                                                                <div class="hide" id="edit">
+                                                                    @using (Html.BeginForm("ResponderPergunta", "Anuncios", FormMethod.Post, new { @class = "col-md-12" }))
+                                                                    {
+                                                                    <p>
+                                                                        @Html.HiddenFor(Model => Model.anuncioID)
+                                                                        @Html.Hidden("perguntaID", pergunta.perguntaID)
+                                                                        @Html.TextArea("respostaAnuncio", null, new { cols = 70 })
+                                                                        <br />
+                                                                        <button type="submit" class="btn btn-xs green" style="margin-bottom: 0.5%; background-color: #51D466; color: #fff !important;">Responder</button>
+                                                                    </p>
+                                                                    }
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -257,3 +372,9 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $('.edit').on('click', function () {
+        $('#edit').toggleClass('hide');
+    });
+</script>
